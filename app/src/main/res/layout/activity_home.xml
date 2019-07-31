@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Home">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar" />
+            <!-- For fragments -->
+            <FrameLayout
+                android:id="@+id/frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <bss.intern.planb.WeekView.WeekView
+                    android:id="@+id/weekView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:columnGap="8dp"
+                    app:headerColumnPadding="8dp"
+                    app:headerRowPadding="12dp"
+                    app:hourHeight="60dp"
+                    app:noOfVisibleDays="7"
+                    app:textSize="12sp" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/floatActionButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="24dp"
+    android:layout_marginBottom="24dp"
+    android:clickable="true"
+    app:layout_anchor="@id/weekView"
+    app:layout_anchorGravity="bottom|right|end"
+    app:srcCompat="@drawable/ic_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -53,6 +53,17 @@ import static bss.intern.planb.WeekView.WeekViewUtil.today;
  */
 public class WeekView extends View {
 
+    // added by me
+//    private Calendar CurrentTimeShow = Calendar.getInstance();
+//
+//    public void setCurrentTimeShow(Calendar currentTimeShow) {
+//        CurrentTimeShow = currentTimeShow;
+//    }
+//
+//    public Calendar getCurrentTimeShow(){
+//        return CurrentTimeShow;
+//    }
+
     private enum Direction {
         NONE, LEFT, RIGHT, VERTICAL
     }
