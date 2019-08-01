@@ -1,10 +1,12 @@
 package bss.intern.planb.View.Home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,7 +37,6 @@ public class View extends AppCompatActivity implements IView {
     private WeekView weekView;
     private FloatingActionButton floatingActionButton;
     private List<AgendaEvent> mEventModels = new ArrayList<>();
-    private Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,22 @@ public class View extends AppCompatActivity implements IView {
             @Override
             public void onClick(android.view.View view) {
                 Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
 
-        AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
-       presenter = new Presenter();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1){
+            if (resultCode == Activity.RESULT_OK){
+
+            }
+            if (requestCode == Activity.RESULT_CANCELED){
+
+            }
+        }
     }
 
     @Override

@@ -2,8 +2,10 @@ package bss.intern.planb.View.AddAgenda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,6 +35,7 @@ public class View extends AppCompatActivity implements IView {
     TextView tvStartTime;
     TextView tvEndTime;
     Button btnConfirm;
+    Button btnCancel;
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
 
@@ -48,6 +51,7 @@ public class View extends AppCompatActivity implements IView {
         etNote = findViewById(R.id.etNote);
         etLocation = findViewById(R.id.etLocation);
         btnConfirm = findViewById(R.id.btnConfirm);
+        btnCancel = findViewById(R.id.btnCancel);
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
         tvStartDate = findViewById(R.id.tvStartDate);
@@ -141,11 +145,23 @@ public class View extends AppCompatActivity implements IView {
                 if (name.length()!=0 && note.length()!=0 && location.length()!=0) {
                     AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute);
                     presenter.createAgenda(newAgendaEvent);
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
                 }
                 else {
                     Toast toast = Toast.makeText(View.this, "Please fill in all required field", Toast.LENGTH_SHORT);
                     toast.show();
                 }
+            }
+        });
+
+        btnCancel.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
             }
         });
     }

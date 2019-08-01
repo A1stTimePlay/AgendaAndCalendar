@@ -5,12 +5,13 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import bss.intern.planb.Util.DateTime;
 
 @Entity (tableName = "AgendaEvent")
-public class AgendaEvent {
+public class AgendaEvent implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
