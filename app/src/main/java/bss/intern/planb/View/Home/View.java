@@ -1,10 +1,9 @@
-package bss.intern.planb.View;
+package bss.intern.planb.View.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,17 +20,22 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import bss.intern.planb.Database.AgendaDatabase;
+import bss.intern.planb.Database.AgendaEvent;
+import bss.intern.planb.Presenter.Home.Presenter;
 import bss.intern.planb.R;
 import bss.intern.planb.WeekView.DateTimeInterpreter;
 import bss.intern.planb.WeekView.MonthLoader;
 import bss.intern.planb.WeekView.WeekView;
 import bss.intern.planb.WeekView.WeekViewEvent;
 
-public class Home extends AppCompatActivity {
+public class View extends AppCompatActivity implements IView {
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
     private FloatingActionButton floatingActionButton;
+    private List<AgendaEvent> mEventModels = new ArrayList<>();
+    private Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,17 @@ public class Home extends AppCompatActivity {
         configureWeekView();
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Home.this, AddAgenda.class);
+            public void onClick(android.view.View view) {
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
                 startActivity(intent);
             }
         });
+
+        AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
+       presenter = new Presenter();
+
     }
 
     @Override
@@ -91,13 +99,7 @@ public class Home extends AppCompatActivity {
 
     private void configureWeekView(){
         weekView = (WeekView) findViewById(R.id.weekView);
-        weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
-            @Override
-            public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-                List<WeekViewEvent> events = new ArrayList<>();
-                return events;
-            }
-        });
+
         weekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDate(Calendar date) {
@@ -112,12 +114,33 @@ public class Home extends AppCompatActivity {
                 return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
             }
         });
+
         weekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
                 setTitle(newFirstVisibleDay.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
             }
         });
+
+        weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
+            @Override
+            public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+//                if (mEventModels.size() == 0 || !containsEvents(mEventModels, newYear, newMonth)){
+////                    presenter.loadAll();
+////                    return new ArrayList<WeekViewEvent>();
+////                }
+////                return getWeekViewEventsFromEventModels(mEventModels, newYear, newMonth);
+                return new ArrayList<>();
+            }
+        });
     }
+
+//    private boolean containsEvents(List<AgendaEvent> events, int year, int month){
+//
+//    }
+//
+//    private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
+//
+//    }
 
 }

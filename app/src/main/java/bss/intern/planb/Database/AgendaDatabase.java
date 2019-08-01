@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {AgendaEvent.class}, version = 1)
+@Database(entities = {AgendaEvent.class}, version = 1, exportSchema = false)
 public abstract class AgendaDatabase extends RoomDatabase {
 
     private static AgendaDatabase INSTANCE;
@@ -15,8 +15,7 @@ public abstract class AgendaDatabase extends RoomDatabase {
 
     public static AgendaDatabase getINSTANCE(Context context){
         if (INSTANCE == null){
-            INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), AgendaDatabase.class, "agenda-database")
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AgendaDatabase.class, "agenda-database")
                             // allow queries on the main thread.
                             // Don't do this on a real app! See PersistenceBasicSample for an example.
                             .allowMainThreadQueries()

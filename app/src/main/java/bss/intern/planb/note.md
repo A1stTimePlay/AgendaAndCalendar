@@ -1,0 +1,1 @@
+weekview.notifyDatasetChanged() will trigger onMonthChange()
