@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -37,15 +38,20 @@ public class View extends AppCompatActivity implements IView {
     private WeekView weekView;
     private FloatingActionButton floatingActionButton;
     private List<AgendaEvent> mEventModels = new ArrayList<>();
+    private Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        AgendaDatabase db = AgendaDatabase.getINSTANCE(this);
+        presenter = new Presenter(this, db.agendaEventDao());
+
         configureNavigationDrawer();
         configureToolbar();
         configureWeekView();
+        presenter.loadAll();
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatActionButton);
         floatingActionButton.setOnClickListener(new android.view.View.OnClickListener() {
@@ -59,13 +65,13 @@ public class View extends AppCompatActivity implements IView {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
             if (resultCode == Activity.RESULT_OK){
-
+                presenter.loadAll();
             }
             if (requestCode == Activity.RESULT_CANCELED){
-
             }
         }
     }
@@ -80,11 +86,9 @@ public class View extends AppCompatActivity implements IView {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         switch(itemId) {
-            // Android home
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            // manage other entries if you have it ...
         }
         return true;
     }
@@ -135,22 +139,47 @@ public class View extends AppCompatActivity implements IView {
         weekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
             @Override
             public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-//                if (mEventModels.size() == 0 || !containsEvents(mEventModels, newYear, newMonth)){
-////                    presenter.loadAll();
-////                    return new ArrayList<WeekViewEvent>();
-////                }
-////                return getWeekViewEventsFromEventModels(mEventModels, newYear, newMonth);
-                return new ArrayList<>();
+                return getWeekViewEventsFromEventModels(mEventModels, newYear, newMonth);
             }
         });
     }
 
-//    private boolean containsEvents(List<AgendaEvent> events, int year, int month){
-//
-//    }
-//
-//    private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
-//
-//    }
+    @Override
+    public void populateList(List<AgendaEvent> agendaEventList) {
+        mEventModels.clear();
+        for (AgendaEvent agendaEvent:agendaEventList){
+            mEventModels.add(agendaEvent);
+        }
+        weekView.notifyDatasetChanged();
+    }
 
+    private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
+        List<WeekViewEvent> result = new ArrayList<>();
+        for (AgendaEvent agendaEvent:eventModels){
+            if (agendaEvent.getStartMonth() == month && agendaEvent.getStartYear() == year){
+                long id = agendaEvent.getId();
+                String name = agendaEvent.getName();
+                String location = agendaEvent.getLocation();
+
+                Calendar startDate = Calendar.getInstance();
+                startDate.set(Calendar.DAY_OF_MONTH, agendaEvent.getStartDay());
+                startDate.set(Calendar.MONTH, agendaEvent.getStartMonth());
+                startDate.set(Calendar.YEAR, agendaEvent.getStartYear());
+                startDate.set(Calendar.HOUR_OF_DAY, agendaEvent.getStartHour());
+                startDate.set(Calendar.MINUTE, agendaEvent.getStartMonth());
+
+                Calendar endDate = Calendar.getInstance();
+                endDate.set(Calendar.DAY_OF_MONTH, agendaEvent.getEndDay());
+                endDate.set(Calendar.MONTH, agendaEvent.getEndMonth());
+                endDate.set(Calendar.YEAR, agendaEvent.getEndYear());
+                endDate.set(Calendar.HOUR_OF_DAY, agendaEvent.getEndHour());
+                endDate.set(Calendar.MINUTE, agendaEvent.getEndMinute());
+
+                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate);
+                temp.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                result.add(temp);
+            }
+        }
+        return result;
+    }
 }

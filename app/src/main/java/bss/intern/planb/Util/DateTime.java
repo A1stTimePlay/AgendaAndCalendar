@@ -14,23 +14,23 @@ public class DateTime implements Serializable {
 
     NumberFormat formatter = new DecimalFormat("00");
 
-    public DateTime(){
+    public DateTime() {
 
     }
 
     public DateTime(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mMonth = calendar.get(Calendar.MONTH) + 1;
+        this.mMonth = calendar.get(Calendar.MONTH );
         this.mYear = calendar.get(Calendar.YEAR);
-        this.mHour = calendar.get(Calendar.HOUR);
+        this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
         this.mMinute = calendar.get(Calendar.MINUTE);
     }
 
-    public void set(Calendar calendar){
+    public void set(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mMonth = calendar.get(Calendar.MONTH) + 1;
+        this.mMonth = calendar.get(Calendar.MONTH );
         this.mYear = calendar.get(Calendar.YEAR);
-        this.mHour = calendar.get(Calendar.HOUR);
+        this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
         this.mMinute = calendar.get(Calendar.MINUTE);
     }
 
@@ -83,7 +83,7 @@ public class DateTime implements Serializable {
 
     public String dateToString() {
         String day = formatter.format(mDay);
-        String month = formatter.format(mMonth);
+        String month = formatter.format(mMonth+1);
         String year = formatter.format(mYear);
         return day + "/" + month + "/" + year;
     }

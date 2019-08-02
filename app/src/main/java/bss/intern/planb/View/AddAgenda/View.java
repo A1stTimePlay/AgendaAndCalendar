@@ -146,6 +146,7 @@ public class View extends AppCompatActivity implements IView {
                     AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute);
                     presenter.createAgenda(newAgendaEvent);
                     Intent returnIntent = new Intent();
+                    returnIntent.putExtra("AgendaEvent", newAgendaEvent);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 }
@@ -166,11 +167,6 @@ public class View extends AppCompatActivity implements IView {
         });
     }
 
-
-    @Override
-    public void addAgendaEventToListInView(AgendaEvent agendaEvent) {
-
-    }
 
     @Override
     public void successful() {
