@@ -2,28 +2,49 @@ package bss.intern.planb.Database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+import java.util.Date;
+
+import bss.intern.planb.Util.DateTime;
+
 @Entity (tableName = "AgendaEvent")
-public class AgendaEvent {
+public class AgendaEvent implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo
     private String Name;
-    @ColumnInfo
     private String Note;
-    @ColumnInfo
-    private String DateBegin;
-    @ColumnInfo
-    private String DateEnd;
-    @ColumnInfo
-    private String TimeBegin;
-    @ColumnInfo
-    private String TimeEnd;
-    @ColumnInfo
     private String Location;
+    private int startDay;
+    private int startMonth;
+    private int startYear;
+    private int startHour;
+    private int startMinute;
+    private int endDay;
+    private int endMonth;
+    private int endYear;
+    private int endHour;
+    private int endMinute;
+
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute) {
+        this.Name = Name;
+        this.Note = Note;
+        this.Location = Location;
+        this.startDay = startDay;
+        this.startMonth = startMonth;
+        this.startYear = startYear;
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endDay = endDay;
+        this.endMonth = endMonth;
+        this.endYear = endYear;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+    }
 
     public int getId() {
         return id;
@@ -49,43 +70,91 @@ public class AgendaEvent {
         Note = note;
     }
 
-    public String getDateBegin() {
-        return DateBegin;
-    }
-
-    public void setDateBegin(String dateBegin) {
-        DateBegin = dateBegin;
-    }
-
-    public String getDateEnd() {
-        return DateEnd;
-    }
-
-    public void setDateEnd(String dateEnd) {
-        DateEnd = dateEnd;
-    }
-
-    public String getTimeBegin() {
-        return TimeBegin;
-    }
-
-    public void setTimeBegin(String timeBegin) {
-        TimeBegin = timeBegin;
-    }
-
-    public String getTimeEnd() {
-        return TimeEnd;
-    }
-
-    public void setTimeEnd(String timeEnd) {
-        TimeEnd = timeEnd;
-    }
-
     public String getLocation() {
         return Location;
     }
 
     public void setLocation(String location) {
         Location = location;
+    }
+
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(int startDay) {
+        this.startDay = startDay;
+    }
+
+    public int getStartMonth() {
+        return startMonth;
+    }
+
+    public void setStartMonth(int startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    public int getStartHour() {
+        return startHour;
+    }
+
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
+    }
+
+    public int getStartMinute() {
+        return startMinute;
+    }
+
+    public void setStartMinute(int startMinute) {
+        this.startMinute = startMinute;
+    }
+
+    public int getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(int endDay) {
+        this.endDay = endDay;
+    }
+
+    public int getEndMonth() {
+        return endMonth;
+    }
+
+    public void setEndMonth(int endMonth) {
+        this.endMonth = endMonth;
+    }
+
+    public int getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(int endYear) {
+        this.endYear = endYear;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
+    }
+
+    public int getEndMinute() {
+        return endMinute;
+    }
+
+    public void setEndMinute(int endMinute) {
+        this.endMinute = endMinute;
     }
 }

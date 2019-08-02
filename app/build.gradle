@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "bss.intern.planb"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -27,5 +27,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "androidx.room:room-runtime:2.2.0-alpha01"
+    annotationProcessor "androidx.room:room-compiler:2.2.0-alpha01"
     implementation "com.google.android.material:material:1.0.0-rc01"
 }
