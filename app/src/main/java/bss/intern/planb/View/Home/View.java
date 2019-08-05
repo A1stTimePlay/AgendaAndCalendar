@@ -2,10 +2,16 @@ package bss.intern.planb.View.Home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,9 +42,12 @@ public class View extends AppCompatActivity implements IView {
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton fabEvent, fabReminder, fabGoal, fabOutOfOfice;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
     private List<AgendaEvent> mEventModels = new ArrayList<>();
     private Presenter presenter;
+    private android.view.View view;
+    boolean isOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,30 +57,22 @@ public class View extends AppCompatActivity implements IView {
         AgendaDatabase db = AgendaDatabase.getINSTANCE(this);
         presenter = new Presenter(this, db.agendaEventDao());
 
+        initComponent();
         configureNavigationDrawer();
         configureToolbar();
         configureWeekView();
+
         presenter.loadAll();
-
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatActionButton);
-        floatingActionButton.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                startActivityForResult(intent,1);
-            }
-        });
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
                 presenter.loadAll();
             }
-            if (requestCode == Activity.RESULT_CANCELED){
+            if (requestCode == Activity.RESULT_CANCELED) {
             }
         }
     }
@@ -83,9 +84,9 @@ public class View extends AppCompatActivity implements IView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        switch(itemId) {
+        switch (itemId) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
@@ -93,26 +94,88 @@ public class View extends AppCompatActivity implements IView {
         return true;
     }
 
+    private void initComponent() {
+        fabEvent = findViewById(R.id.fabEvent);
+        fabReminder = findViewById(R.id.fabReminder);
+        fabGoal = findViewById(R.id.fabGoal);
+        fabOutOfOfice = findViewById(R.id.fabMeeting);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
+        fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
+        view = findViewById(R.id.shadowView);
+
+        fabEvent.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        fabEvent.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                if (isOpen) {
+
+                    Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                    startActivityForResult(intent, 1);
+                    fabMenuClose();
+
+                } else {
+                    fabMenuOpen();
+                }
+            }
+        });
+    }
+
+    private void fabMenuOpen(){
+        fabReminder.startAnimation(fab_open);
+        fabReminder.setClickable(true);
+        fabReminder.show();
+        fabGoal.startAnimation(fab_open);
+        fabGoal.setClickable(true);
+        fabGoal.show();
+        fabOutOfOfice.startAnimation(fab_open);
+        fabOutOfOfice.setClickable(true);
+        fabOutOfOfice.show();
+        fabEvent.startAnimation(fab_clock);
+        fabEvent.setImageResource(R.drawable.ic_event);
+        fabEvent.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.event_color_01)));
+        isOpen = true;
+    }
+
+    private void fabMenuClose(){
+        fabReminder.startAnimation(fab_close);
+        fabReminder.setClickable(false);
+        fabReminder.hide();
+        fabGoal.startAnimation(fab_close);
+        fabGoal.setClickable(false);
+        fabGoal.hide();
+        fabOutOfOfice.startAnimation(fab_close);
+        fabOutOfOfice.setClickable(false);
+        fabOutOfOfice.hide();
+        fabEvent.startAnimation(fab_anticlock);
+        fabEvent.setImageResource(R.drawable.plus);
+        fabEvent.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        isOpen = false;
+    }
+
     private void configureToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionbar.setDisplayHomeAsUpEnabled(true);
     }
+
     private void configureNavigationDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.navigation);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navView = findViewById(R.id.navigation);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 return false;
             }
         });
+
     }
 
-    private void configureWeekView(){
-        weekView = (WeekView) findViewById(R.id.weekView);
+    private void configureWeekView() {
+        weekView = findViewById(R.id.weekView);
 
         weekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
@@ -142,12 +205,28 @@ public class View extends AppCompatActivity implements IView {
                 return getWeekViewEventsFromEventModels(mEventModels, newYear, newMonth);
             }
         });
+
+        weekView.setEmptyViewLongPressListener(new WeekView.EmptyViewLongPressListener() {
+            @Override
+            public void onEmptyViewLongPress(Calendar time) {
+                Toast toast = Toast.makeText(View.this, "Hello world", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        weekView.setEmptyViewClickListener(new WeekView.EmptyViewClickListener() {
+            @Override
+            public void onEmptyViewClicked(Calendar time) {
+                fabMenuClose();
+            }
+        });
+
     }
 
     @Override
     public void populateList(List<AgendaEvent> agendaEventList) {
         mEventModels.clear();
-        for (AgendaEvent agendaEvent:agendaEventList){
+        for (AgendaEvent agendaEvent : agendaEventList) {
             mEventModels.add(agendaEvent);
         }
         weekView.notifyDatasetChanged();
@@ -155,8 +234,8 @@ public class View extends AppCompatActivity implements IView {
 
     private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
         List<WeekViewEvent> result = new ArrayList<>();
-        for (AgendaEvent agendaEvent:eventModels){
-            if (agendaEvent.getStartMonth() == month && agendaEvent.getStartYear() == year){
+        for (AgendaEvent agendaEvent : eventModels) {
+            if (agendaEvent.getStartMonth() == month && agendaEvent.getStartYear() == year) {
                 long id = agendaEvent.getId();
                 String name = agendaEvent.getName();
                 String location = agendaEvent.getLocation();

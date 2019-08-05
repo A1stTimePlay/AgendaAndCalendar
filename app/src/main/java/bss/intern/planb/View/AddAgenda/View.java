@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,15 +29,15 @@ public class View extends AppCompatActivity implements IView {
 
     Presenter presenter;
 
-    TextInputEditText etName;
-    TextInputEditText etNote;
-    TextInputEditText etLocation;
+    EditText etName;
+    EditText etNote;
+    EditText etLocation;
     TextView tvStartDate;
     TextView tvEndDate;
     TextView tvStartTime;
     TextView tvEndTime;
     Button btnConfirm;
-    Button btnCancel;
+    ImageView btnCancel;
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
 
@@ -52,6 +54,11 @@ public class View extends AppCompatActivity implements IView {
         etLocation = findViewById(R.id.etLocation);
         btnConfirm = findViewById(R.id.btnConfirm);
         btnCancel = findViewById(R.id.btnCancel);
+        android.view.View line1 = findViewById(R.id.line1);
+        android.view.View line2 = findViewById(R.id.line2);
+        android.view.View line3 = findViewById(R.id.line3);
+        android.view.View line4 = findViewById(R.id.line4);
+
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
         tvStartDate = findViewById(R.id.tvStartDate);
