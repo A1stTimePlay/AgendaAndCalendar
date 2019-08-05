@@ -175,17 +175,18 @@ public class View extends AppCompatActivity implements IView {
 
     private void fabMenuOpen() {
         shadowView.setVisibility(android.view.View.VISIBLE);
+
         fabTodo.startAnimation(fab_open);
         fabTodo.setClickable(true);
-        fabTodo.show();
+        fabTodo.setVisibility(android.view.View.VISIBLE);
 
         fabGoal.startAnimation(fab_open);
         fabGoal.setClickable(true);
-        fabGoal.show();
+        fabGoal.setVisibility(android.view.View.VISIBLE);
 
         fabMeeting.startAnimation(fab_open);
         fabMeeting.setClickable(true);
-        fabMeeting.show();
+        fabMeeting.setVisibility(android.view.View.VISIBLE);
 
         fabEvent.setImageResource(R.drawable.ic_event);
         fabEvent.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(View.this, R.color.event_color_01)));
@@ -201,17 +202,18 @@ public class View extends AppCompatActivity implements IView {
 
     private void fabMenuClose() {
         shadowView.setVisibility(android.view.View.GONE);
+
         fabTodo.startAnimation(fab_close);
         fabTodo.setClickable(false);
-        fabTodo.hide();
+        fabTodo.setVisibility(android.view.View.GONE);
 
         fabGoal.startAnimation(fab_close);
         fabGoal.setClickable(false);
-        fabGoal.hide();
+        fabGoal.setVisibility(android.view.View.GONE);
 
         fabMeeting.startAnimation(fab_close);
         fabMeeting.setClickable(false);
-        fabMeeting.hide();
+        fabMeeting.setVisibility(android.view.View.GONE);
 
         fabEvent.setImageResource(R.drawable.plus);
         fabEvent.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));

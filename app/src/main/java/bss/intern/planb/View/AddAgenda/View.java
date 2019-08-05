@@ -149,8 +149,10 @@ public class View extends AppCompatActivity implements IView {
                 int endYear = endDateTime.getmYear();
                 int endHour = endDateTime.getmHour();
                 int endMinute = endDateTime.getmMinute();
+                Intent intent = getIntent();
+                int color = intent.getIntExtra("color",0);
                 if (name.length()!=0 && note.length()!=0 && location.length()!=0) {
-                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute);
+                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color);
                     presenter.createAgenda(newAgendaEvent);
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("AgendaEvent", newAgendaEvent);

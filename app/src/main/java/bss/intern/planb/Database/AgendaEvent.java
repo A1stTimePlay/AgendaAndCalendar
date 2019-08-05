@@ -29,8 +29,9 @@ public class AgendaEvent implements Serializable {
     private int endYear;
     private int endHour;
     private int endMinute;
+    private int color;
 
-    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute) {
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color) {
         this.Name = Name;
         this.Note = Note;
         this.Location = Location;
@@ -44,6 +45,7 @@ public class AgendaEvent implements Serializable {
         this.endYear = endYear;
         this.endHour = endHour;
         this.endMinute = endMinute;
+        this.color = color;
     }
 
     public int getId() {
@@ -156,5 +158,13 @@ public class AgendaEvent implements Serializable {
 
     public void setEndMinute(int endMinute) {
         this.endMinute = endMinute;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

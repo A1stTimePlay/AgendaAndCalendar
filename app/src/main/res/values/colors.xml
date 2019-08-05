@@ -11,4 +11,5 @@
     <color name="event_color_04">#f8b552</color>
     <color name="black">#000000</color>
     <color name="gray">#9e9e9e</color>
+    <color name="red">#ff1744</color>
 </resources>

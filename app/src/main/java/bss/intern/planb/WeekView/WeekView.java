@@ -53,17 +53,6 @@ import static bss.intern.planb.WeekView.WeekViewUtil.today;
  */
 public class WeekView extends View {
 
-    // added by me
-//    private Calendar CurrentTimeShow = Calendar.getInstance();
-//
-//    public void setCurrentTimeShow(Calendar currentTimeShow) {
-//        CurrentTimeShow = currentTimeShow;
-//    }
-//
-//    public Calendar getCurrentTimeShow(){
-//        return CurrentTimeShow;
-//    }
-
     private enum Direction {
         NONE, LEFT, RIGHT, VERTICAL
     }
@@ -135,7 +124,7 @@ public class WeekView extends View {
     private int mFutureWeekendBackgroundColor = 0;
     private int mNowLineColor = Color.rgb(102, 102, 102);
     private int mNowLineThickness = 5;
-    private int mHourSeparatorColor = Color.rgb(0, 132, 255);
+    private int mHourSeparatorColor = Color.rgb(230, 230, 230);
     private int mTodayBackgroundColor = Color.rgb(239, 247, 254);
     private int mHourSeparatorHeight = 2;
     private int mTodayHeaderTextColor = Color.rgb(39, 137, 228);
@@ -619,7 +608,8 @@ public class WeekView extends View {
 
         // Consider scroll offset.
         int leftDaysWithGaps = (int) -(Math.ceil(mCurrentOrigin.x / (mWidthPerDay + mColumnGap)));
-        float startFromPixel = mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * leftDaysWithGaps + mHeaderColumnWidth;
+        float startFromPixel = mCurrentOrigin.x + (mWidthPerDay + mColumnGap) * leftDaysWithGaps +
+                mHeaderColumnWidth;
         float startPixel = startFromPixel;
 
         // Prepare to iterate for each day.

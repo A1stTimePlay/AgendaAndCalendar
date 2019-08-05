@@ -36,8 +36,10 @@
                     app:hourHeight="60dp"
                     app:noOfVisibleDays="7"
                     app:showNowLine="true"
-                    app:nowLineColor="@color/red"
-                    app:textSize="12sp" />
+                    app:nowLineColor="@color/colorAccent"
+                    app:nowLineThickness="4dp"
+                    app:textSize="14dp"
+                    app:eventTextColor="@color/white"/>
             </FrameLayout>
         </LinearLayout>
 
@@ -67,6 +69,7 @@
         android:layout_marginBottom="220dp"
         android:backgroundTint="@color/event_color_04"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_question_answer"
         android:visibility="invisible" />
 
@@ -80,6 +83,7 @@
         android:layout_marginBottom="152dp"
         android:backgroundTint="@color/event_color_03"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_flag"
         android:visibility="invisible" />
 
@@ -93,6 +97,7 @@
         android:layout_marginBottom="84dp"
         android:backgroundTint="@color/event_color_02"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_assignment"
         android:visibility="invisible" />
 
@@ -103,11 +108,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/plus"
-        android:visibility="visible"
-        android:clickable="true" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tvFabEvent"

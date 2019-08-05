@@ -76,6 +76,16 @@ public class WeekViewEvent {
         this.mAllDay = allDay;
     }
 
+    public WeekViewEvent(long id, String name, String location, Calendar startTime, Calendar endTime, boolean allDay, int color) {
+        this.mId = id;
+        this.mName = name;
+        this.mLocation = location;
+        this.mStartTime = startTime;
+        this.mEndTime = endTime;
+        this.mAllDay = allDay;
+        this.mColor = color;
+    }
+
     /**
      * Initializes the event for week view.
      * @param id The id of the event.
