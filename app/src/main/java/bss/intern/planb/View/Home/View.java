@@ -43,7 +43,7 @@ public class View extends AppCompatActivity implements IView {
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
-    private FloatingActionButton fabEvent, fabReminder, fabGoal, fabOutOfOfice;
+    private FloatingActionButton fabEvent, fabTodo, fabGoal, fabMeeting;
     private TextView tvFabEvent, tvFabTodo, tvFabGoal, tvFabMeeting;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
     private List<AgendaEvent> mEventModels = new ArrayList<>();
@@ -102,9 +102,9 @@ public class View extends AppCompatActivity implements IView {
         tvFabGoal = findViewById(R.id.tvFabGoal);
         tvFabMeeting = findViewById(R.id.tvFabMeeting);
         fabEvent = findViewById(R.id.fabEvent);
-        fabReminder = findViewById(R.id.fabReminder);
+        fabTodo = findViewById(R.id.fabTodo);
         fabGoal = findViewById(R.id.fabGoal);
-        fabOutOfOfice = findViewById(R.id.fabMeeting);
+        fabMeeting = findViewById(R.id.fabMeeting);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
@@ -116,42 +116,80 @@ public class View extends AppCompatActivity implements IView {
             @Override
             public void onClick(android.view.View view) {
                 if (isOpen) {
-
-                    Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                    startActivityForResult(intent, 1);
+                    int color = ContextCompat.getColor(View.this, R.color.event_color_01);
                     fabMenuClose();
-
+                    Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                    intent.putExtra("color", color);
+                    startActivityForResult(intent, 1);
                 } else {
                     fabMenuOpen();
                 }
             }
         });
 
+        fabTodo.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                int color = ContextCompat.getColor(View.this, R.color.event_color_02);
+                fabMenuClose();
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                intent.putExtra("color", color);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        fabGoal.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                int color = ContextCompat.getColor(View.this, R.color.event_color_03);
+                fabMenuClose();
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                intent.putExtra("color", color);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        fabMeeting.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                int color = ContextCompat.getColor(View.this, R.color.event_color_04);
+                fabMenuClose();
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                intent.putExtra("color", color);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+
         shadowView.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                fabMenuClose();
+                if (isOpen) {
+                    fabMenuClose();
+                } else {
+                    fabMenuOpen();
+                }
             }
         });
     }
 
-    private void fabMenuOpen(){
+    private void fabMenuOpen() {
         shadowView.setVisibility(android.view.View.VISIBLE);
-        fabReminder.startAnimation(fab_open);
-        fabReminder.setClickable(true);
-        fabReminder.show();
+        fabTodo.startAnimation(fab_open);
+        fabTodo.setClickable(true);
+        fabTodo.show();
 
         fabGoal.startAnimation(fab_open);
         fabGoal.setClickable(true);
         fabGoal.show();
 
-        fabOutOfOfice.startAnimation(fab_open);
-        fabOutOfOfice.setClickable(true);
-        fabOutOfOfice.show();
+        fabMeeting.startAnimation(fab_open);
+        fabMeeting.setClickable(true);
+        fabMeeting.show();
 
-        fabEvent.startAnimation(fab_clock);
         fabEvent.setImageResource(R.drawable.ic_event);
-        fabEvent.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.event_color_01)));
+        fabEvent.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(View.this, R.color.event_color_01)));
+        fabEvent.startAnimation(fab_clock);
 
         tvFabEvent.setVisibility(android.view.View.VISIBLE);
         tvFabTodo.setVisibility(android.view.View.VISIBLE);
@@ -161,23 +199,23 @@ public class View extends AppCompatActivity implements IView {
         isOpen = true;
     }
 
-    private void fabMenuClose(){
+    private void fabMenuClose() {
         shadowView.setVisibility(android.view.View.GONE);
-        fabReminder.startAnimation(fab_close);
-        fabReminder.setClickable(false);
-        fabReminder.hide();
+        fabTodo.startAnimation(fab_close);
+        fabTodo.setClickable(false);
+        fabTodo.hide();
 
         fabGoal.startAnimation(fab_close);
         fabGoal.setClickable(false);
         fabGoal.hide();
 
-        fabOutOfOfice.startAnimation(fab_close);
-        fabOutOfOfice.setClickable(false);
-        fabOutOfOfice.hide();
+        fabMeeting.startAnimation(fab_close);
+        fabMeeting.setClickable(false);
+        fabMeeting.hide();
 
-        fabEvent.startAnimation(fab_anticlock);
         fabEvent.setImageResource(R.drawable.plus);
         fabEvent.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        fabEvent.startAnimation(fab_anticlock);
 
         tvFabEvent.setVisibility(android.view.View.INVISIBLE);
         tvFabTodo.setVisibility(android.view.View.INVISIBLE);
@@ -280,8 +318,10 @@ public class View extends AppCompatActivity implements IView {
                 endDate.set(Calendar.HOUR_OF_DAY, agendaEvent.getEndHour());
                 endDate.set(Calendar.MINUTE, agendaEvent.getEndMinute());
 
-                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate);
-                temp.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                int color = agendaEvent.getColor();
+
+                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate, false, color);
+                temp.setColor(color);
                 result.add(temp);
             }
         }
