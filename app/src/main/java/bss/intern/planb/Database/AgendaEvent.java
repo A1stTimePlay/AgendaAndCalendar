@@ -30,8 +30,9 @@ public class AgendaEvent implements Serializable {
     private int endHour;
     private int endMinute;
     private int color;
+    private boolean allDay;
 
-    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color) {
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay) {
         this.Name = Name;
         this.Note = Note;
         this.Location = Location;
@@ -46,6 +47,7 @@ public class AgendaEvent implements Serializable {
         this.endHour = endHour;
         this.endMinute = endMinute;
         this.color = color;
+        this.allDay = allDay;
     }
 
     public int getId() {
@@ -166,5 +168,13 @@ public class AgendaEvent implements Serializable {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 }

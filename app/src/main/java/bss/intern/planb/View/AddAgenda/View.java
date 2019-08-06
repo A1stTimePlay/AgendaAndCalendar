@@ -1,24 +1,29 @@
 package bss.intern.planb.View.AddAgenda;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
@@ -33,6 +38,7 @@ import bss.intern.planb.Util.DateTime;
 
 public class View extends AppCompatActivity implements IView {
 
+    private static final String TAG = "Add agenda";
     Presenter presenter;
 
     EditText etName;
@@ -44,9 +50,12 @@ public class View extends AppCompatActivity implements IView {
     TextView tvEndTime;
     Button btnConfirm;
     ImageView btnCancel;
+    Switch swAllday;
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
+
     public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
+    public static int AUTOCOMPLETE_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +73,7 @@ public class View extends AppCompatActivity implements IView {
         etLocation = findViewById(R.id.etLocation);
         btnConfirm = findViewById(R.id.btnConfirm);
         btnCancel = findViewById(R.id.btnCancel);
-        android.view.View line1 = findViewById(R.id.line1);
-        android.view.View line2 = findViewById(R.id.line2);
-        android.view.View line3 = findViewById(R.id.line3);
-        android.view.View line4 = findViewById(R.id.line4);
+        swAllday = findViewById(R.id.swAllday);
 
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
@@ -159,10 +165,11 @@ public class View extends AppCompatActivity implements IView {
                 int endYear = endDateTime.getmYear();
                 int endHour = endDateTime.getmHour();
                 int endMinute = endDateTime.getmMinute();
+                boolean allDay = swAllday.isChecked();
                 Intent intent = getIntent();
                 int color = intent.getIntExtra("color", 0);
                 if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
-                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color);
+                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color, allDay);
                     presenter.createAgenda(newAgendaEvent);
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("AgendaEvent", newAgendaEvent);
@@ -187,11 +194,10 @@ public class View extends AppCompatActivity implements IView {
         etLocation.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                int AUTOCOMPLETE_REQUEST_CODE = 1;
                 List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
                 Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        AutocompleteActivityMode.OVERLAY, fields)
                         .build(View.this);
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
@@ -202,5 +208,23 @@ public class View extends AppCompatActivity implements IView {
     public void successful() {
         Toast toast = Toast.makeText(this, "hello world", Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                etLocation.setText(place.getName());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }

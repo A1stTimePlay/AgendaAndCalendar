@@ -324,8 +324,9 @@ public class View extends AppCompatActivity implements IView {
                 endDate.set(Calendar.MINUTE, agendaEvent.getEndMinute());
 
                 int color = agendaEvent.getColor();
+                boolean allDay = agendaEvent.isAllDay();
 
-                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate, false, color);
+                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate, allDay, color);
                 temp.setColor(color);
                 result.add(temp);
             }
