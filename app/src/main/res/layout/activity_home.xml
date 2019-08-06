@@ -38,7 +38,7 @@
                     app:showNowLine="true"
                     app:nowLineColor="@color/colorAccent"
                     app:nowLineThickness="4dp"
-                    app:textSize="14dp"
+                    app:textSize="12dp"
                     app:eventTextColor="@color/white"/>
             </FrameLayout>
         </LinearLayout>

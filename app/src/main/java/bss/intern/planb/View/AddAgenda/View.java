@@ -15,9 +15,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
@@ -40,6 +46,7 @@ public class View extends AppCompatActivity implements IView {
     ImageView btnCancel;
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
+    public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,9 @@ public class View extends AppCompatActivity implements IView {
 
         AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
         presenter = new Presenter(this, db.agendaEventDao());
+
+        Places.initialize(getApplicationContext(), API_KEY);
+        PlacesClient placesClient = Places.createClient(this);
 
         etName = findViewById(R.id.etName);
         etNote = findViewById(R.id.etNote);
@@ -150,16 +160,15 @@ public class View extends AppCompatActivity implements IView {
                 int endHour = endDateTime.getmHour();
                 int endMinute = endDateTime.getmMinute();
                 Intent intent = getIntent();
-                int color = intent.getIntExtra("color",0);
-                if (name.length()!=0 && note.length()!=0 && location.length()!=0) {
+                int color = intent.getIntExtra("color", 0);
+                if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
                     AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color);
                     presenter.createAgenda(newAgendaEvent);
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("AgendaEvent", newAgendaEvent);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
-                }
-                else {
+                } else {
                     Toast toast = Toast.makeText(View.this, "Please fill in all required field", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -174,8 +183,20 @@ public class View extends AppCompatActivity implements IView {
                 finish();
             }
         });
-    }
 
+        etLocation.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                int AUTOCOMPLETE_REQUEST_CODE = 1;
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(View.this);
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            }
+        });
+    }
 
     @Override
     public void successful() {

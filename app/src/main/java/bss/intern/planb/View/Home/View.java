@@ -32,6 +32,7 @@ import java.util.Locale;
 
 import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
+import bss.intern.planb.MapsActivity;
 import bss.intern.planb.Presenter.Home.Presenter;
 import bss.intern.planb.R;
 import bss.intern.planb.WeekView.DateTimeInterpreter;
@@ -152,11 +153,13 @@ public class View extends AppCompatActivity implements IView {
         fabMeeting.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                int color = ContextCompat.getColor(View.this, R.color.event_color_04);
-                fabMenuClose();
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                intent.putExtra("color", color);
-                startActivityForResult(intent, 1);
+//                int color = ContextCompat.getColor(View.this, R.color.event_color_04);
+//                fabMenuClose();
+//                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+//                intent.putExtra("color", color);
+//                startActivityForResult(intent, 1);
+                Intent intent = new Intent(View.this, MapsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -188,9 +191,9 @@ public class View extends AppCompatActivity implements IView {
         fabMeeting.setClickable(true);
         fabMeeting.setVisibility(android.view.View.VISIBLE);
 
+        fabEvent.startAnimation(fab_clock);
         fabEvent.setImageResource(R.drawable.ic_event);
         fabEvent.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(View.this, R.color.event_color_01)));
-        fabEvent.startAnimation(fab_clock);
 
         tvFabEvent.setVisibility(android.view.View.VISIBLE);
         tvFabTodo.setVisibility(android.view.View.VISIBLE);
