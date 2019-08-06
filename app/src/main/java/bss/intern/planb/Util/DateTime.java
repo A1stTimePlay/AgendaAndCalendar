@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DateTime implements Serializable {
     int mDay;
@@ -11,6 +12,7 @@ public class DateTime implements Serializable {
     int mYear;
     int mHour;
     int mMinute;
+    Calendar calendar;
 
     NumberFormat formatter = new DecimalFormat("00");
 
@@ -20,18 +22,20 @@ public class DateTime implements Serializable {
 
     public DateTime(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mMonth = calendar.get(Calendar.MONTH );
+        this.mMonth = calendar.get(Calendar.MONTH);
         this.mYear = calendar.get(Calendar.YEAR);
         this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
         this.mMinute = calendar.get(Calendar.MINUTE);
+        this.calendar = calendar;
     }
 
     public void set(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mMonth = calendar.get(Calendar.MONTH );
+        this.mMonth = calendar.get(Calendar.MONTH);
         this.mYear = calendar.get(Calendar.YEAR);
         this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
         this.mMinute = calendar.get(Calendar.MINUTE);
+        this.calendar = calendar;
     }
 
     public int getmDay() {
@@ -40,6 +44,7 @@ public class DateTime implements Serializable {
 
     public void setmDay(int mDay) {
         this.mDay = mDay;
+        calendar.set(Calendar.DAY_OF_MONTH, mDay);
     }
 
     public int getmMonth() {
@@ -48,6 +53,7 @@ public class DateTime implements Serializable {
 
     public void setmMonth(int mMonth) {
         this.mMonth = mMonth;
+        calendar.set(Calendar.MONTH, mMonth);
     }
 
     public int getmYear() {
@@ -56,6 +62,7 @@ public class DateTime implements Serializable {
 
     public void setmYear(int mYear) {
         this.mYear = mYear;
+        calendar.set(Calendar.YEAR, mYear);
     }
 
     public int getmHour() {
@@ -82,9 +89,10 @@ public class DateTime implements Serializable {
     }
 
     public String dateToString() {
-        String day = formatter.format(mDay);
-        String month = formatter.format(mMonth+1);
+        String dayWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
+        String day = Integer.toString(mDay);
+        String month = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
         String year = formatter.format(mYear);
-        return day + "/" + month + "/" + year;
+        return dayWeek + ", " + month + " " + day + ", " + year;
     }
 }

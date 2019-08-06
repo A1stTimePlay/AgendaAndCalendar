@@ -153,11 +153,6 @@ public class View extends AppCompatActivity implements IView {
         fabMeeting.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-//                int color = ContextCompat.getColor(View.this, R.color.event_color_04);
-//                fabMenuClose();
-//                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-//                intent.putExtra("color", color);
-//                startActivityForResult(intent, 1);
                 Intent intent = new Intent(View.this, MapsActivity.class);
                 startActivity(intent);
             }

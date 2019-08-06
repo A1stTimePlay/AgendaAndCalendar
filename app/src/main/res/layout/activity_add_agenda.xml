@@ -45,7 +45,7 @@
             android:layout_marginTop="24dp"
             android:background="@color/gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/btnLocation" />
 
         <TextView
             android:id="@+id/tvStartDate"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="24dp"
-            android:text="31/07/2019"
+            android:text="Tue, Aug 6, 2019"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -64,7 +64,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="72dp"
             android:layout_marginTop="24dp"
-            android:text="01/08/2019"
+            android:text="Tue, Aug 6, 2019"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStartDate" />
@@ -78,7 +78,7 @@
             android:text="2:30 PM"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/swAllday" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
             android:id="@+id/tvEndTime"
@@ -104,8 +104,8 @@
         <Button
             android:id="@+id/btnConfirm"
             android:layout_width="68dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="save"
@@ -152,7 +152,7 @@
         <EditText
             android:id="@+id/etNote"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
@@ -168,14 +168,14 @@
         <EditText
             android:id="@+id/etLocation"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="72dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:background="@null"
-            android:focusable="false"
             android:hint="Add location"
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine"
+            android:focusable="false"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -241,7 +241,7 @@
             app:srcCompat="@drawable/ic_location" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

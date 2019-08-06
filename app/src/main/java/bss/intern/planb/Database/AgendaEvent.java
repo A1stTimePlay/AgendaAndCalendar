@@ -10,7 +10,7 @@ import java.util.Date;
 
 import bss.intern.planb.Util.DateTime;
 
-@Entity (tableName = "AgendaEvent")
+@Entity(tableName = "AgendaEvent")
 public class AgendaEvent implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -31,8 +31,10 @@ public class AgendaEvent implements Serializable {
     private int endMinute;
     private int color;
     private boolean allDay;
+    private double latitue;
+    private double longitue;
 
-    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay) {
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay, double latitue, double longitue) {
         this.Name = Name;
         this.Note = Note;
         this.Location = Location;
@@ -48,6 +50,8 @@ public class AgendaEvent implements Serializable {
         this.endMinute = endMinute;
         this.color = color;
         this.allDay = allDay;
+        this.latitue = latitue;
+        this.longitue = longitue;
     }
 
     public int getId() {
@@ -176,5 +180,21 @@ public class AgendaEvent implements Serializable {
 
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public double getLatitue() {
+        return latitue;
+    }
+
+    public void setLatitue(double latitue) {
+        this.latitue = latitue;
+    }
+
+    public double getLongitue() {
+        return longitue;
+    }
+
+    public void setLongtitue(double longtitue) {
+        this.longitue = longtitue;
     }
 }

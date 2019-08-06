@@ -32,6 +32,7 @@ import java.util.List;
 
 import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
+import bss.intern.planb.MapsActivity;
 import bss.intern.planb.Presenter.AddAgenda.Presenter;
 import bss.intern.planb.R;
 import bss.intern.planb.Util.DateTime;
@@ -51,11 +52,15 @@ public class View extends AppCompatActivity implements IView {
     Button btnConfirm;
     ImageView btnCancel;
     Switch swAllday;
+    Button btnLocation;
+
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
 
     public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
     public static int AUTOCOMPLETE_REQUEST_CODE = 2;
+
+    Place place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +79,7 @@ public class View extends AppCompatActivity implements IView {
         btnConfirm = findViewById(R.id.btnConfirm);
         btnCancel = findViewById(R.id.btnCancel);
         swAllday = findViewById(R.id.swAllday);
-
+        btnLocation = findViewById(R.id.btnLocation);
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
         tvStartDate = findViewById(R.id.tvStartDate);
@@ -169,7 +174,7 @@ public class View extends AppCompatActivity implements IView {
                 Intent intent = getIntent();
                 int color = intent.getIntExtra("color", 0);
                 if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
-                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color, allDay);
+                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color, allDay, place.getLatLng().latitude, place.getLatLng().longitude);
                     presenter.createAgenda(newAgendaEvent);
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("AgendaEvent", newAgendaEvent);
@@ -194,7 +199,7 @@ public class View extends AppCompatActivity implements IView {
         etLocation.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
 
                 Intent intent = new Autocomplete.IntentBuilder(
                         AutocompleteActivityMode.OVERLAY, fields)
@@ -202,11 +207,22 @@ public class View extends AppCompatActivity implements IView {
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
             }
         });
+
+        btnLocation.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                Intent intent = new Intent(View.this, MapsActivity.class);
+                intent.putExtra("latitue", place.getLatLng().latitude);
+                intent.putExtra("longitue", place.getLatLng().longitude);
+                intent.putExtra("title", etName.getText().toString());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void successful() {
-        Toast toast = Toast.makeText(this, "hello world", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, "Success create new event", Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -215,9 +231,9 @@ public class View extends AppCompatActivity implements IView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId()+" , "+ place.getLatLng());
-                etLocation.setText(place.getName());
+                place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress() + ", " + place.getLatLng().latitude);
+                etLocation.setText(place.getAddress());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
