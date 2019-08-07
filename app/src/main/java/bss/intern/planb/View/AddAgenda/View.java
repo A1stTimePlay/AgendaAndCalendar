@@ -6,8 +6,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,17 +41,17 @@ public class View extends AppCompatActivity implements IView {
     private static final String TAG = "Add agenda";
     Presenter presenter;
 
-    EditText etName;
-    EditText etNote;
-    EditText etLocation;
-    TextView tvStartDate;
-    TextView tvEndDate;
-    TextView tvStartTime;
-    TextView tvEndTime;
-    Button btnConfirm;
-    ImageView btnCancel;
-    Switch swAllday;
-    Button btnLocation;
+    private EditText etName;
+    private EditText etNote;
+    private EditText etLocation;
+    private TextView tvStartDate;
+    private TextView tvEndDate;
+    private TextView tvStartTime;
+    private TextView tvEndTime;
+    private Button btnConfirm;
+    private ImageView btnCancel;
+    private Switch swAllday;
+    private Button btnLocation;
 
     final DateTime startDateTime = new DateTime(Calendar.getInstance());
     final DateTime endDateTime = new DateTime(Calendar.getInstance());
@@ -64,6 +65,13 @@ public class View extends AppCompatActivity implements IView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_agenda);
+
+        final Intent intent = getIntent();
+        final int color = intent.getIntExtra("color", 0);
+        ColorStateList colorStateList = ColorStateList.valueOf(color);
+
+        Window window = getWindow();
+        window.setStatusBarColor(color);
 
         AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
         presenter = new Presenter(this, db.agendaEventDao());
@@ -152,6 +160,7 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
+        btnConfirm.setBackgroundColor(color);
         btnConfirm.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
@@ -169,8 +178,7 @@ public class View extends AppCompatActivity implements IView {
                 int endHour = endDateTime.getmHour();
                 int endMinute = endDateTime.getmMinute();
                 boolean allDay = swAllday.isChecked();
-                Intent intent = getIntent();
-                int color = intent.getIntExtra("color", 0);
+
                 if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
                     AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color, allDay, place.getLatLng().latitude, place.getLatLng().longitude);
                     presenter.createAgenda(newAgendaEvent);
@@ -230,14 +238,10 @@ public class View extends AppCompatActivity implements IView {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 place = Autocomplete.getPlaceFromIntent(data);
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress() + ", " + place.getLatLng().latitude);
                 etLocation.setText(place.getAddress());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
-                Log.i(TAG, status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
             }
         }
     }

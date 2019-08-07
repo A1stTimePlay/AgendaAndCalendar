@@ -16,10 +16,6 @@ public class DateTime implements Serializable {
 
     NumberFormat formatter = new DecimalFormat("00");
 
-    public DateTime() {
-
-    }
-
     public DateTime(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
         this.mMonth = calendar.get(Calendar.MONTH);
