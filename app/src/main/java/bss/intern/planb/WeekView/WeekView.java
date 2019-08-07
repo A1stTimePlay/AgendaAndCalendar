@@ -597,9 +597,9 @@ public class WeekView extends View {
         mEventTextPaint.setTextSize(mEventTextSize);
 
         // Set default event color.
-        mDefaultEventColor = Color.parseColor("#9fc6e7");
+        mDefaultEventColor = Color.parseColor("#59dbe0");
         // Set default empty event color.
-        mNewEventColor = Color.parseColor("#3c93d9");
+        mNewEventColor = Color.parseColor("#59dbe0");
 
         mScaleDetector = new ScaleGestureDetector(mContext, new WeekViewGestureListener());
     }
