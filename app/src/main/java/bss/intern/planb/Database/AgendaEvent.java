@@ -31,10 +31,10 @@ public class AgendaEvent implements Serializable {
     private int endMinute;
     private int color;
     private boolean allDay;
-    private double latitue;
-    private double longitue;
+    private double latitude;
+    private double longitude;
 
-    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay, double latitue, double longitue) {
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay, double latitude, double longitude) {
         this.Name = Name;
         this.Note = Note;
         this.Location = Location;
@@ -50,8 +50,8 @@ public class AgendaEvent implements Serializable {
         this.endMinute = endMinute;
         this.color = color;
         this.allDay = allDay;
-        this.latitue = latitue;
-        this.longitue = longitue;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {
@@ -182,19 +182,19 @@ public class AgendaEvent implements Serializable {
         this.allDay = allDay;
     }
 
-    public double getLatitue() {
-        return latitue;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLatitue(double latitue) {
-        this.latitue = latitue;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getLongitue() {
-        return longitue;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitue(double longtitue) {
-        this.longitue = longtitue;
+    public void setLongtitude(double longtitude) {
+        this.longitude = longtitude;
     }
 }

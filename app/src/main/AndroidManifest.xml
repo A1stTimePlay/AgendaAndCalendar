@@ -30,7 +30,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".View.ShowOnMap.View"
             android:label="@string/title_activity_maps"></activity>
         <activity android:name=".View.AddAgenda.View" />
         <activity android:name=".View.Home.View">

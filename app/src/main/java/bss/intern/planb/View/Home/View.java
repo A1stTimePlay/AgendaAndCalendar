@@ -32,7 +32,6 @@ import java.util.Locale;
 
 import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
-import bss.intern.planb.MapsActivity;
 import bss.intern.planb.Presenter.Home.Presenter;
 import bss.intern.planb.R;
 import bss.intern.planb.WeekView.DateTimeInterpreter;
@@ -153,7 +152,7 @@ public class View extends AppCompatActivity implements IView {
         fabMeeting.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, MapsActivity.class);
+                Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
                 startActivity(intent);
             }
         });

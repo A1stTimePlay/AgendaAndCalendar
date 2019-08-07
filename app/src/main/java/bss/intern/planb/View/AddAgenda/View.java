@@ -1,7 +1,6 @@
 package bss.intern.planb.View.AddAgenda;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -32,7 +31,6 @@ import java.util.List;
 
 import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
-import bss.intern.planb.MapsActivity;
 import bss.intern.planb.Presenter.AddAgenda.Presenter;
 import bss.intern.planb.R;
 import bss.intern.planb.Util.DateTime;
@@ -211,9 +209,9 @@ public class View extends AppCompatActivity implements IView {
         btnLocation.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, MapsActivity.class);
-                intent.putExtra("latitue", place.getLatLng().latitude);
-                intent.putExtra("longitue", place.getLatLng().longitude);
+                Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
+                intent.putExtra("latitude", place.getLatLng().latitude);
+                intent.putExtra("longitude", place.getLatLng().longitude);
                 intent.putExtra("title", etName.getText().toString());
                 startActivity(intent);
             }

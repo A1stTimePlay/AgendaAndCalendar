@@ -1,4 +1,4 @@
-package bss.intern.planb;
+package bss.intern.planb.View.ShowOnMap;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -9,15 +9,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import bss.intern.planb.R;
+
+public class View extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private double latitue;
-    private double longitue;
+    private double latitude;
+    private double longitude;
     private String name;
+    private String note;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +34,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Intent intent = getIntent();
-        latitue = intent.getDoubleExtra("latitue", 0);
-        longitue = intent.getDoubleExtra("longitue", 0);
+        latitude = intent.getDoubleExtra("latitue", 0);
+        longitude = intent.getDoubleExtra("longitue", 0);
         name = intent.getStringExtra("title");
-        System.out.println(name);
+        note = intent.getStringExtra("note");
     }
 
 
@@ -49,8 +55,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(latitue, longitue);
-        mMap.addMarker(new MarkerOptions().position(sydney).title(name));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng location = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions().position(location).title(name).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bss));
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
     }
 }
