@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -257,7 +261,7 @@ public class View extends AppCompatActivity implements IView {
             }
 
             @Override
-            public String interpretTime(int hour) {
+            public String interpretTime(int hour, int minutes) {
                 return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
             }
         });
@@ -281,6 +285,13 @@ public class View extends AppCompatActivity implements IView {
             public void onEmptyViewLongPress(Calendar time) {
                 Toast toast = Toast.makeText(View.this, "Hello world", Toast.LENGTH_SHORT);
                 toast.show();
+            }
+        });
+
+        weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
+            @Override
+            public void onAddEventClicked(Calendar startTime, Calendar endTime) {
+
             }
         });
 
@@ -320,7 +331,7 @@ public class View extends AppCompatActivity implements IView {
                 int color = agendaEvent.getColor();
                 boolean allDay = agendaEvent.isAllDay();
 
-                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate, allDay, color);
+                WeekViewEvent temp = new WeekViewEvent(id, name, location, startDate, endDate, allDay);
                 temp.setColor(color);
                 result.add(temp);
             }
