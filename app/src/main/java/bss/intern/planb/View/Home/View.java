@@ -309,7 +309,7 @@ public class View extends AppCompatActivity implements IView {
     private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
         List<WeekViewEvent> result = new ArrayList<>();
         for (AgendaEvent agendaEvent : eventModels) {
-            if (agendaEvent.getStartMonth() == month && agendaEvent.getStartYear() == year) {
+            if (agendaEvent.getStartMonth() == month-1 && agendaEvent.getStartYear() == year) {
                 long id = agendaEvent.getId();
                 String name = agendaEvent.getName();
                 String location = agendaEvent.getLocation();
