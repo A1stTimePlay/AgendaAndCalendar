@@ -92,6 +92,9 @@ public class View extends AppCompatActivity implements IView {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.today:
+                weekView.goToToday();
+
         }
         return true;
     }
@@ -211,8 +214,9 @@ public class View extends AppCompatActivity implements IView {
         isOpen = false;
     }
 
-    private void fabOpenActivity(int color){
-        fabMenuClose();
+    private void fabOpenActivity(int color) {
+        if (isOpen == true)
+            fabMenuClose();
         Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
         intent.putExtra("color", color);
         startActivityForResult(intent, 1);
@@ -273,7 +277,7 @@ public class View extends AppCompatActivity implements IView {
         weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
-
+                fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_01));
             }
         });
 
@@ -300,7 +304,7 @@ public class View extends AppCompatActivity implements IView {
     private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
         List<WeekViewEvent> result = new ArrayList<>();
         for (AgendaEvent agendaEvent : eventModels) {
-            if (agendaEvent.getStartMonth() == month-1 && agendaEvent.getStartYear() == year) {
+            if (agendaEvent.getStartMonth() == month - 1 && agendaEvent.getStartYear() == year) {
                 long id = agendaEvent.getId();
                 String name = agendaEvent.getName();
                 String location = agendaEvent.getLocation();

@@ -20,7 +20,7 @@
             android:title="Meeting" />
     </group>
     <item
-        android:id="@+id/Today"
+        android:id="@+id/today"
         android:title="Today"
         android:icon="@drawable/ic_today"
         app:showAsAction="always"/>

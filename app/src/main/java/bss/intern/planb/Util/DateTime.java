@@ -101,9 +101,9 @@ public class DateTime implements Serializable {
     }
 
     public String dateToString() {
-        String dayWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
+        String dayWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
         String day = Integer.toString(mDay);
-        String month = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
+        String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
         String year = formatter.format(mYear);
         return dayWeek + ", " + month + " " + day + ", " + year;
     }

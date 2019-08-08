@@ -215,11 +215,13 @@ public class View extends AppCompatActivity implements IView {
         btnLocation.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
-                intent.putExtra("latitude", place.getLatLng().latitude);
-                intent.putExtra("longitude", place.getLatLng().longitude);
-                intent.putExtra("title", etName.getText().toString());
-                startActivity(intent);
+                if (etLocation.getText().length()!=0) {
+                    Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
+                    intent.putExtra("latitude", place.getLatLng().latitude);
+                    intent.putExtra("longitude", place.getLatLng().longitude);
+                    intent.putExtra("title", etName.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
     }
