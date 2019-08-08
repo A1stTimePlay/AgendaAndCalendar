@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -270,18 +270,19 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
-        weekView.setEmptyViewLongPressListener(new WeekView.EmptyViewLongPressListener() {
-            @Override
-            public void onEmptyViewLongPress(Calendar time) {
-                Toast toast = Toast.makeText(View.this, "Hello world", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-
         weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
 
+            }
+        });
+
+        weekView.setOnEventClickListener(new WeekView.EventClickListener() {
+            @Override
+            public void onEventClick(WeekViewEvent event, RectF eventRect) {
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AgendaDetail.View.class);
+                intent.putExtra("WeekViewEvent", event);
+                startActivity(intent);
             }
         });
 

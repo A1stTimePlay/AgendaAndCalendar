@@ -196,8 +196,6 @@ public class View extends AppCompatActivity implements IView {
         btnCancel.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
             }
         });
