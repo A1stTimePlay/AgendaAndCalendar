@@ -59,6 +59,8 @@ public class View extends AppCompatActivity implements IView {
     public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
     public static int AUTOCOMPLETE_REQUEST_CODE = 2;
 
+    int color;
+
     Place place;
 
     @Override
@@ -67,7 +69,7 @@ public class View extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_add_agenda);
 
         final Intent intent = getIntent();
-        final int color = intent.getIntExtra("color", 0);
+        color = intent.getIntExtra("color", 0);
         ColorStateList colorStateList = ColorStateList.valueOf(color);
 
         Window window = getWindow();
@@ -220,6 +222,13 @@ public class View extends AppCompatActivity implements IView {
                     intent.putExtra("latitude", place.getLatLng().latitude);
                     intent.putExtra("longitude", place.getLatLng().longitude);
                     intent.putExtra("title", etName.getText().toString());
+                    intent.putExtra("note", etNote.getText().toString());
+                    intent.putExtra("start date", tvStartDate.getText().toString());
+                    intent.putExtra("end date", tvEndDate.getText().toString());
+                    intent.putExtra("start time", tvStartTime.getText().toString());
+                    intent.putExtra("end time", tvEndTime.getText().toString());
+                    intent.putExtra("address", etLocation.getText().toString());
+                    intent.putExtra("color", color);
                     startActivity(intent);
                 }
             }
