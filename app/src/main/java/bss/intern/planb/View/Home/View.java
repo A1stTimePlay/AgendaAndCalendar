@@ -67,38 +67,6 @@ public class View extends AppCompatActivity implements IView {
         presenter.loadAll();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                presenter.loadAll();
-            }
-            if (requestCode == Activity.RESULT_CANCELED) {
-            }
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.more_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.today:
-                weekView.goToToday();
-
-        }
-        return true;
-    }
-
     private void initComponent() {
         tvFabEvent = findViewById(R.id.tvFabEvent);
         tvFabTodo = findViewById(R.id.tvFabTodo);
@@ -236,7 +204,10 @@ public class View extends AppCompatActivity implements IView {
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                return false;
+                drawerLayout.closeDrawers();
+                if (menuItem.getItemId() == R.id.nav_new_event)
+                    fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_01));
+                return true;
             }
         });
 
@@ -292,15 +263,6 @@ public class View extends AppCompatActivity implements IView {
 
     }
 
-    @Override
-    public void populateList(List<AgendaEvent> agendaEventList) {
-        mEventModels.clear();
-        for (AgendaEvent agendaEvent : agendaEventList) {
-            mEventModels.add(agendaEvent);
-        }
-        weekView.notifyDatasetChanged();
-    }
-
     private List<WeekViewEvent> getWeekViewEventsFromEventModels(List<AgendaEvent> eventModels, int year, int month) {
         List<WeekViewEvent> result = new ArrayList<>();
         for (AgendaEvent agendaEvent : eventModels) {
@@ -332,5 +294,46 @@ public class View extends AppCompatActivity implements IView {
             }
         }
         return result;
+    }
+
+    @Override
+    public void populateList(List<AgendaEvent> agendaEventList) {
+        mEventModels.clear();
+        for (AgendaEvent agendaEvent : agendaEventList) {
+            mEventModels.add(agendaEvent);
+        }
+        weekView.notifyDatasetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                presenter.loadAll();
+            }
+            if (requestCode == Activity.RESULT_CANCELED) {
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.more_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.today:
+                weekView.goToToday();
+
+        }
+        return true;
     }
 }
