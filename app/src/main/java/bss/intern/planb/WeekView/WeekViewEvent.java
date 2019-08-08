@@ -4,6 +4,7 @@ import android.graphics.Shader;
 
 import androidx.annotation.ColorInt;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -14,7 +15,7 @@ import static bss.intern.planb.WeekView.WeekViewUtil.isSameDay;
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://april-shower.com
  */
-public class WeekViewEvent {
+public class WeekViewEvent implements Serializable {
     private String mId;
     private Calendar mStartTime;
     private Calendar mEndTime;

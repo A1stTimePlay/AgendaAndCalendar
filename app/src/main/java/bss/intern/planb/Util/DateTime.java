@@ -6,6 +6,8 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import bss.intern.planb.Database.AgendaEvent;
+
 public class DateTime implements Serializable {
     int mDay;
     int mMonth;
@@ -16,10 +18,6 @@ public class DateTime implements Serializable {
 
     NumberFormat formatter = new DecimalFormat("00");
 
-    public DateTime() {
-
-    }
-
     public DateTime(Calendar calendar) {
         this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
         this.mMonth = calendar.get(Calendar.MONTH);
@@ -27,6 +25,20 @@ public class DateTime implements Serializable {
         this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
         this.mMinute = calendar.get(Calendar.MINUTE);
         this.calendar = calendar;
+    }
+
+    public DateTime(int mDay, int mMonth, int mYear, int mHour, int mMinute) {
+        this.mDay = mDay;
+        this.mMonth = mMonth;
+        this.mYear = mYear;
+        this.mHour = mHour;
+        this.mMinute = mMinute;
+        calendar = calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, mDay);
+        calendar.set(Calendar.MONTH, mMonth);
+        calendar.set(Calendar.YEAR, mYear);
+        calendar.set(Calendar.HOUR, mHour);
+        calendar.set(Calendar.MINUTE, mMinute);
     }
 
     public void set(Calendar calendar) {

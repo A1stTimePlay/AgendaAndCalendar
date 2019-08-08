@@ -36,7 +36,7 @@
                     app:hourHeight="60dp"
                     app:noOfVisibleDays="7"
                     app:showNowLine="true"
-                    app:nowLineColor="@color/colorAccent"
+                    app:nowLineColor="@color/gray"
                     app:nowLineThickness="4dp"
                     app:textSize="12dp"
                     app:eventTextColor="@color/white"/>

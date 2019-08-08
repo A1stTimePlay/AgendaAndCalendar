@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import bss.intern.planb.Util.DateTime;
+import bss.intern.planb.WeekView.WeekViewEvent;
 
 @Entity(tableName = "AgendaEvent")
 public class AgendaEvent implements Serializable {
@@ -53,6 +54,7 @@ public class AgendaEvent implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
 
     public int getId() {
         return id;

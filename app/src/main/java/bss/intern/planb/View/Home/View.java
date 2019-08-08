@@ -10,16 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -120,11 +116,7 @@ public class View extends AppCompatActivity implements IView {
             @Override
             public void onClick(android.view.View view) {
                 if (isOpen) {
-                    int color = ContextCompat.getColor(View.this, R.color.event_color_01);
-                    fabMenuClose();
-                    Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                    intent.putExtra("color", color);
-                    startActivityForResult(intent, 1);
+                    fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_01));
                 } else {
                     fabMenuOpen();
                 }
@@ -134,30 +126,21 @@ public class View extends AppCompatActivity implements IView {
         fabTodo.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                int color = ContextCompat.getColor(View.this, R.color.event_color_02);
-                fabMenuClose();
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                intent.putExtra("color", color);
-                startActivityForResult(intent, 1);
+                fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_02));
             }
         });
 
         fabGoal.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                int color = ContextCompat.getColor(View.this, R.color.event_color_03);
-                fabMenuClose();
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-                intent.putExtra("color", color);
-                startActivityForResult(intent, 1);
+                fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_03));
             }
         });
 
         fabMeeting.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
-                startActivity(intent);
+                fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_04));
             }
         });
 
@@ -228,6 +211,13 @@ public class View extends AppCompatActivity implements IView {
         isOpen = false;
     }
 
+    private void fabOpenActivity(int color){
+        fabMenuClose();
+        Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+        intent.putExtra("color", color);
+        startActivityForResult(intent, 1);
+    }
+
     private void configureToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -280,18 +270,19 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
-        weekView.setEmptyViewLongPressListener(new WeekView.EmptyViewLongPressListener() {
-            @Override
-            public void onEmptyViewLongPress(Calendar time) {
-                Toast toast = Toast.makeText(View.this, "Hello world", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-
         weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
 
+            }
+        });
+
+        weekView.setOnEventClickListener(new WeekView.EventClickListener() {
+            @Override
+            public void onEventClick(WeekViewEvent event, RectF eventRect) {
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AgendaDetail.View.class);
+                intent.putExtra("WeekViewEvent", event);
+                startActivity(intent);
             }
         });
 
