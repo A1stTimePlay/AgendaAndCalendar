@@ -40,7 +40,6 @@
                     app:nowLineThickness="4dp"
                     app:textSize="12dp"
                     app:eventTextColor="@color/white"
-                    app:newEventTimeResolutionInMinutes="15"
                     app:dropListenerEnabled="true"/>
                 <TextView
                     android:id="@+id/draggable_view"

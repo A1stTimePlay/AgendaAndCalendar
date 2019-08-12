@@ -20,4 +20,9 @@ public class Presenter implements IPresenter {
         List<AgendaEvent> agendaEventList = agendaEventDao.getAll();
         view.populateList(agendaEventList);
     }
+
+    @Override
+    public void quickCreate(AgendaEvent agendaEvent) {
+        agendaEventDao.insertAgenda(agendaEvent);
+    }
 }
