@@ -13,5 +13,10 @@
         android:layout_height="wrap_content"
         android:text="Calendar and Agenda"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nguyenxuanan.nxa@gmail.com"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
 </LinearLayout>

@@ -6,5 +6,4 @@ import bss.intern.planb.WeekView.WeekViewEvent;
 public interface IPresenter {
     void getAgendaEventById(WeekViewEvent weekViewEvent);
     void deleteAgendaEvent(WeekViewEvent weekViewEvent);
-    void updateAgendaEvent(WeekViewEvent weekViewEvent);
 }

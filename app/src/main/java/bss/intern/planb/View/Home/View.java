@@ -1,19 +1,23 @@
 package bss.intern.planb.View.Home;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,6 +45,9 @@ import bss.intern.planb.WeekView.WeekViewEvent;
 
 public class View extends AppCompatActivity implements IView {
 
+    public static int FLAG_CREATE_NEW = 0;
+    public static int FLAG_EDIT = 1;
+
     private DrawerLayout drawerLayout;
     private WeekView weekView;
     private FloatingActionButton fabEvent, fabTodo, fabGoal, fabMeeting;
@@ -64,7 +71,21 @@ public class View extends AppCompatActivity implements IView {
         configureToolbar();
         configureWeekView();
 
+        TextView draggableView = (TextView) findViewById(R.id.draggable_view);
+        draggableView.setOnLongClickListener(new DragTapListener());
+
         presenter.loadAll();
+    }
+
+    private final class DragTapListener implements android.view.View.OnLongClickListener {
+        @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+        @Override
+        public boolean onLongClick(android.view.View v) {
+            ClipData data = ClipData.newPlainText("", "");
+            android.view.View.DragShadowBuilder shadowBuilder = new android.view.View.DragShadowBuilder(v);
+            v.startDrag(data, shadowBuilder, v, 0);
+            return true;
+        }
     }
 
     private void initComponent() {
@@ -185,8 +206,13 @@ public class View extends AppCompatActivity implements IView {
     private void fabOpenActivity(int color) {
         if (isOpen == true)
             fabMenuClose();
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+//        endDate.add(Calendar.HOUR, 1);
+        AgendaEvent temp = new AgendaEvent(startDate, endDate, color);
         Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
-        intent.putExtra("color", color);
+        intent.putExtra("AgendaEvent", temp);
+        intent.putExtra("FLAG", FLAG_CREATE_NEW);
         startActivityForResult(intent, 1);
     }
 
@@ -248,7 +274,11 @@ public class View extends AppCompatActivity implements IView {
         weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
-                fabOpenActivity(ContextCompat.getColor(View.this, R.color.event_color_01));
+                AgendaEvent temp = new AgendaEvent(startTime, endTime, ContextCompat.getColor(View.this, R.color.event_color_01));
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                intent.putExtra("AgendaEvent", temp);
+                startActivityForResult(intent, 1);
+
             }
         });
 
@@ -258,6 +288,13 @@ public class View extends AppCompatActivity implements IView {
                 Intent intent = new Intent(View.this, bss.intern.planb.View.AgendaDetail.View.class);
                 intent.putExtra("WeekViewEvent", event);
                 startActivity(intent);
+            }
+        });
+
+        weekView.setDropListener(new WeekView.DropListener() {
+            @Override
+            public void onDrop(android.view.View view, Calendar date) {
+                Toast.makeText(View.this, "View dropped to " + date.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

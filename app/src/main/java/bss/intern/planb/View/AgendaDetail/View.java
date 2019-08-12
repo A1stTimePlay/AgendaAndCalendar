@@ -1,7 +1,9 @@
 package bss.intern.planb.View.AgendaDetail;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ public class View extends AppCompatActivity implements IView {
     private ImageView btnEdit;
     private ImageView btnRemove;
     private android.view.View color;
+    private AgendaEvent DisplayedAgendaEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class View extends AppCompatActivity implements IView {
         btnRemove = findViewById(R.id.btnDetailRemove);
         color = findViewById(R.id.color);
 
+        presenter.getAgendaEventById(temp);
+
         btnCancel.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
@@ -69,14 +74,14 @@ public class View extends AppCompatActivity implements IView {
         btnEdit.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                intent.putExtra("AgendaEvent", DisplayedAgendaEvent);
+                intent.putExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_EDIT);
+                startActivityForResult(intent, 1);
             }
         });
 
-        presenter.getAgendaEventById(temp);
-
     }
-
 
     @Override
     public void displayAgendaEventDetail(AgendaEvent agendaEvent) {
@@ -88,6 +93,7 @@ public class View extends AppCompatActivity implements IView {
         tvStartDate.setText(start.dateToString() + " - " + start.timeToString());
         tvEndDate.setText(end.dateToString() + " - " + end.timeToString());
         color.setBackgroundColor(agendaEvent.getColor());
+        this.DisplayedAgendaEvent = agendaEvent;
     }
 
     @Override
@@ -102,4 +108,17 @@ public class View extends AppCompatActivity implements IView {
         toast.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                System.out.println("hello world");
+                AgendaEvent temp = (AgendaEvent) data.getSerializableExtra("AgendaEvent");
+                displayAgendaEventDetail(temp);
+            }
+            if (requestCode == Activity.RESULT_CANCELED) {
+            }
+        }
+    }
 }

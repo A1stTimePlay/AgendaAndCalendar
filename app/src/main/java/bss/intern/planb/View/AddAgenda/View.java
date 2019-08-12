@@ -53,8 +53,7 @@ public class View extends AppCompatActivity implements IView {
     private Switch swAllday;
     private Button btnLocation;
 
-    final DateTime startDateTime = new DateTime(Calendar.getInstance());
-    final DateTime endDateTime = new DateTime(Calendar.getInstance());
+    private int FLAG;
 
     public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
     public static int AUTOCOMPLETE_REQUEST_CODE = 2;
@@ -69,11 +68,14 @@ public class View extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_add_agenda);
 
         final Intent intent = getIntent();
-        color = intent.getIntExtra("color", 0);
-        ColorStateList colorStateList = ColorStateList.valueOf(color);
+        final AgendaEvent temp = (AgendaEvent) intent.getSerializableExtra("AgendaEvent");
+        color = temp.getColor();
 
         Window window = getWindow();
         window.setStatusBarColor(color);
+
+        FLAG = intent.getIntExtra("FLAG", 0);
+        System.out.println(FLAG);
 
         AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
         presenter = new Presenter(this, db.agendaEventDao());
@@ -88,9 +90,20 @@ public class View extends AppCompatActivity implements IView {
         btnCancel = findViewById(R.id.btnCancel);
         swAllday = findViewById(R.id.swAllday);
         btnLocation = findViewById(R.id.btnLocation);
+        tvStartDate = findViewById(R.id.tvStartDate);
+        tvEndDate = findViewById(R.id.tvEndDate);
+        tvStartTime = findViewById(R.id.tvStartTime);
+        tvEndTime = findViewById(R.id.tvEndTime);
+
+        final DateTime startDateTime = new DateTime(temp.getStartDay(), temp.getStartMonth(), temp.getStartYear(), temp.getStartHour(), temp.getStartMinute());
+        final DateTime endDateTime = new DateTime(temp.getEndDay(), temp.getEndMonth(), temp.getEndYear(), temp.getEndHour(), temp.getEndMinute());
+
+        etName.setText(temp.getName());
+        etNote.setText(temp.getNote());
+        etLocation.setText(temp.getLocation());
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
-        tvStartDate = findViewById(R.id.tvStartDate);
+
         tvStartDate.setText(startDateTime.dateToString());
         tvStartDate.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -101,7 +114,6 @@ public class View extends AppCompatActivity implements IView {
                         startDateTime.setmDay(i2);
                         startDateTime.setmMonth(i1);
                         startDateTime.setmYear(i);
-
                         tvStartDate.setText(startDateTime.dateToString());
                     }
                 }, startDateTime.getmYear(), startDateTime.getmMonth(), startDateTime.getmDay());
@@ -109,7 +121,7 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
-        tvEndDate = findViewById(R.id.tvEndDate);
+
         tvEndDate.setText(endDateTime.dateToString());
         tvEndDate.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -128,7 +140,7 @@ public class View extends AppCompatActivity implements IView {
         });
 
         // lần đầu tiên TimePickerDialog hiện lên sẽ show thời gian mặc định là thời gian hiện tại
-        tvStartTime = findViewById(R.id.tvStartTime);
+
         tvStartTime.setText(startDateTime.timeToString());
         tvStartTime.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -145,7 +157,7 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
-        tvEndTime = findViewById(R.id.tvEndTime);
+
         tvEndTime.setText(endDateTime.timeToString());
         tvEndTime.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -182,10 +194,29 @@ public class View extends AppCompatActivity implements IView {
                 boolean allDay = swAllday.isChecked();
 
                 if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
-                    AgendaEvent newAgendaEvent = new AgendaEvent(name, note, location, startDay, startMonth, startYear, startHour, startMinute, endDay, endMonth, endYear, endHour, endMinute, color, allDay, place.getLatLng().latitude, place.getLatLng().longitude);
-                    presenter.createAgenda(newAgendaEvent);
+                    temp.setName(name);
+                    temp.setNote(note);
+                    temp.setLocation(location);
+                    temp.setStartDay(startDay);
+                    temp.setStartMonth(startMonth);
+                    temp.setStartYear(startYear);
+                    temp.setStartHour(startHour);
+                    temp.setStartMinute(startMinute);
+                    temp.setEndDay(endDay);
+                    temp.setEndMonth(endMonth);
+                    temp.setEndYear(endYear);
+                    temp.setEndHour(endHour);
+                    temp.setEndMinute(endMinute);
+                    temp.setAllDay(allDay);
+                    if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW) {
+                        presenter.createAgenda(temp);
+                    }
+                    else {
+
+                        presenter.editAgenda(temp);
+                    }
                     Intent returnIntent = new Intent();
-                    returnIntent.putExtra("AgendaEvent", newAgendaEvent);
+                    returnIntent.putExtra("AgendaEvent", temp);
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
                 } else {
@@ -217,7 +248,7 @@ public class View extends AppCompatActivity implements IView {
         btnLocation.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                if (etLocation.getText().length()!=0) {
+                if (etLocation.getText().length() != 0) {
                     Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
                     intent.putExtra("latitude", place.getLatLng().latitude);
                     intent.putExtra("longitude", place.getLatLng().longitude);
@@ -237,8 +268,8 @@ public class View extends AppCompatActivity implements IView {
 
     @Override
     public void successful() {
-        Toast toast = Toast.makeText(this, "Success create new event", Toast.LENGTH_SHORT);
-        toast.show();
+        if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW) Toast.makeText(this, "Success create new event", Toast.LENGTH_SHORT).show();
+        if (FLAG == bss.intern.planb.View.Home.View.FLAG_EDIT) Toast.makeText(this, "Success update event", Toast.LENGTH_SHORT).show();
     }
 
     @Override

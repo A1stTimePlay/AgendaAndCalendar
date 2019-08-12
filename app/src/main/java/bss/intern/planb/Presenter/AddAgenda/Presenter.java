@@ -19,4 +19,10 @@ public class Presenter implements IPresenter{
         agendaEventDao.insertAgenda(agendaEvent);
         view.successful();
     }
+
+    @Override
+    public void editAgenda(AgendaEvent agendaEvent) {
+        agendaEventDao.updateAgenda(agendaEvent);
+        view.successful();
+    }
 }

@@ -28,8 +28,4 @@ public class Presenter implements IPresenter {
         view.successfulDetele();
     }
 
-    @Override
-    public void updateAgendaEvent(WeekViewEvent weekViewEvent) {
-//        AgendaEvent temp = agendaEventDao.findById((int)weekViewEvent.getId());
-    }
 }

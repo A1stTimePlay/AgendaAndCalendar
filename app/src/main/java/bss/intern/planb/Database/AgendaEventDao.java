@@ -23,7 +23,8 @@ public interface AgendaEventDao {
     @Query("Select * from AgendaEvent where id like :id")
     AgendaEvent findById(int id);
 
-//    @Query("Update AgendaEvent set ")
+    @Update
+    void updateAgenda(AgendaEvent agendaEvent);
 
     @Delete
     void deleteAgenda(AgendaEvent agendaEvent);

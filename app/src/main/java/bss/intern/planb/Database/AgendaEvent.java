@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import bss.intern.planb.Util.DateTime;
@@ -53,6 +54,29 @@ public class AgendaEvent implements Serializable {
         this.allDay = allDay;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    @Ignore
+    public AgendaEvent(Calendar startDate, Calendar endDate, int color) {
+        this.Name = "";
+        this.Note = "";
+        this.Location = "";
+        this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
+        this.startMonth = startDate.get(Calendar.MONTH);
+        this.startYear = startDate.get(Calendar.YEAR);
+        this.startHour = startDate.get(Calendar.HOUR);
+        this.startMinute = startDate.get(Calendar.MINUTE);
+        this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        this.endMonth = endDate.get(Calendar.MONTH);
+        this.endYear = endDate.get(Calendar.YEAR);
+        this.endHour = endDate.get(Calendar.HOUR);
+        this.endMinute = endDate.get(Calendar.MINUTE);
+        this.color = color;
+        this.allDay = false;
+        this.latitude = 0;
+        this.longitude = 0;
+
+
     }
 
 
