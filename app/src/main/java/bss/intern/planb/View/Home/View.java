@@ -331,7 +331,7 @@ public class View extends AppCompatActivity implements IView {
                 startDate.set(Calendar.MONTH, agendaEvent.getStartMonth());
                 startDate.set(Calendar.YEAR, agendaEvent.getStartYear());
                 startDate.set(Calendar.HOUR_OF_DAY, agendaEvent.getStartHour());
-                startDate.set(Calendar.MINUTE, agendaEvent.getStartMonth());
+                startDate.set(Calendar.MINUTE, agendaEvent.getStartMinute());
 
                 Calendar endDate = Calendar.getInstance();
                 endDate.set(Calendar.DAY_OF_MONTH, agendaEvent.getEndDay());
