@@ -27,7 +27,6 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import bss.intern.planb.Database.AgendaDatabase;
@@ -53,6 +52,8 @@ public class View extends AppCompatActivity implements IView {
     private Switch swAllday;
     private Button btnLocation;
 
+    private AgendaEvent temp;
+
     private int FLAG;
 
     public static String API_KEY = "AIzaSyBBSZMlEWrUVAZRccZCSOxEgxszII_kWhU";
@@ -60,15 +61,13 @@ public class View extends AppCompatActivity implements IView {
 
     int color;
 
-    Place place;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_agenda);
 
         final Intent intent = getIntent();
-        final AgendaEvent temp = (AgendaEvent) intent.getSerializableExtra("AgendaEvent");
+        temp = (AgendaEvent) intent.getSerializableExtra("AgendaEvent");
         FLAG = intent.getIntExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_CREATE_NEW);
 
         color = temp.getColor();
@@ -196,12 +195,9 @@ public class View extends AppCompatActivity implements IView {
                     temp.setEndHour(endDateTime.getmHour());
                     temp.setEndMinute(endDateTime.getmMinute());
                     temp.setAllDay(swAllday.isChecked());
-                    temp.setLatitude(place.getLatLng().latitude);
-                    temp.setLongtitude(place.getLatLng().longitude);
                     if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW) {
                         presenter.createAgenda(temp);
                     } else {
-
                         presenter.editAgenda(temp);
                     }
                     Intent returnIntent = new Intent();
@@ -239,16 +235,10 @@ public class View extends AppCompatActivity implements IView {
             public void onClick(android.view.View view) {
                 if (etLocation.getText().length() != 0) {
                     Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
-                    if (FLAG == bss.intern.planb.View.Home.View.FLAG_EDIT) {
-                        intent.putExtra("latitude", temp.getLatitude());
-                        intent.putExtra("longitude", temp.getLongitude());
-                        startActivity(intent);
-                    } else {
-                        intent.putExtra("latitude", place.getLatLng().latitude);
-                        intent.putExtra("longitude", place.getLatLng().longitude);
-                        intent.putExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_TEMP_LOCATION);
-                        startActivity(intent);
-                    }
+                    intent.putExtra("latitude", temp.getLatitude());
+                    intent.putExtra("longitude", temp.getLongitude());
+                    intent.putExtra("FLAG", FLAG);
+                    startActivity(intent);
                 }
             }
         });
@@ -267,7 +257,9 @@ public class View extends AppCompatActivity implements IView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                place = Autocomplete.getPlaceFromIntent(data);
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                temp.setLatitude(place.getLatLng().latitude);
+                temp.setLongtitude(place.getLatLng().longitude);
                 etLocation.setText(place.getAddress());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);

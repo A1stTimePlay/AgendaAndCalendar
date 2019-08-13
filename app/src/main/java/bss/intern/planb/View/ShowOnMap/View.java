@@ -83,7 +83,7 @@ public class View extends FragmentActivity implements OnMapReadyCallback, IView 
             mMap.addMarker(markerOptions);
         }
 
-        if (flag == bss.intern.planb.View.Home.View.FLAG_TEMP_LOCATION){
+        if (flag != bss.intern.planb.View.Home.View.FLAG_EDIT){
             LatLng location = new LatLng(latitude, longitude);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(location)

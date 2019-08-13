@@ -47,7 +47,6 @@ public class View extends AppCompatActivity implements IView {
 
     public static int FLAG_CREATE_NEW = 0;
     public static int FLAG_EDIT = 1;
-    public static int FLAG_TEMP_LOCATION = 2;
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
@@ -243,6 +242,7 @@ public class View extends AppCompatActivity implements IView {
                     OpenCreateEventActivityDefault(ContextCompat.getColor(View.this, R.color.event_color_01));
                 if (menuItem.getItemId() == R.id.nav_map){
                     Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
+                    intent.putExtra("FLAG", View.FLAG_EDIT);
                     startActivity(intent);
                 }
                 return true;

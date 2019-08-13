@@ -85,13 +85,11 @@ public class View extends AppCompatActivity implements IView {
 
     @Override
     public void displayAgendaEventDetail(AgendaEvent agendaEvent) {
-        DateTime start = new DateTime(agendaEvent.getStartDay(), agendaEvent.getStartMonth(), agendaEvent.getStartYear(), agendaEvent.getStartHour(), agendaEvent.getStartMinute());
-        DateTime end = new DateTime(agendaEvent.getEndDay(), agendaEvent.getEndMonth(), agendaEvent.getEndYear(), agendaEvent.getEndHour(), agendaEvent.getEndMinute());
         tvName.setText(agendaEvent.getName());
         tvNote.setText(agendaEvent.getNote());
         tvLocation.setText(agendaEvent.getLocation());
-        tvStartDate.setText(start.dateToString() + " - " + start.timeToString());
-        tvEndDate.setText(end.dateToString() + " - " + end.timeToString());
+        tvStartDate.setText(agendaEvent.startDateToString());
+        tvEndDate.setText(agendaEvent.endDateToString());
         color.setBackgroundColor(agendaEvent.getColor());
         this.DisplayedAgendaEvent = agendaEvent;
     }
@@ -113,7 +111,6 @@ public class View extends AppCompatActivity implements IView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                System.out.println("hello world");
                 AgendaEvent temp = (AgendaEvent) data.getSerializableExtra("AgendaEvent");
                 displayAgendaEventDetail(temp);
             }
