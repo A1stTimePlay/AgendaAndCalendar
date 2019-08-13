@@ -79,6 +79,18 @@ public class AgendaEvent implements Serializable {
 
     }
 
+    @Ignore
+    public String startDateToString() {
+        DateTime temp = new DateTime(startDay, startMonth, startYear, startHour, startMinute);
+        return temp.dateToString() + " - " + temp.timeToString();
+    }
+
+    @Ignore
+    public String endDateToString() {
+        DateTime temp = new DateTime(endDay, endMonth, endYear, endHour, endMinute);
+        return temp.dateToString() + " - " + temp.timeToString();
+    }
+
 
     public int getId() {
         return id;

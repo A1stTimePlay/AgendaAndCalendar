@@ -69,13 +69,12 @@ public class View extends AppCompatActivity implements IView {
 
         final Intent intent = getIntent();
         final AgendaEvent temp = (AgendaEvent) intent.getSerializableExtra("AgendaEvent");
-        color = temp.getColor();
+        FLAG = intent.getIntExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_CREATE_NEW);
 
+        color = temp.getColor();
         Window window = getWindow();
         window.setStatusBarColor(color);
 
-        FLAG = intent.getIntExtra("FLAG", 0);
-        System.out.println(FLAG);
 
         AgendaDatabase db = AgendaDatabase.getINSTANCE(getApplication());
         presenter = new Presenter(this, db.agendaEventDao());
@@ -181,37 +180,27 @@ public class View extends AppCompatActivity implements IView {
                 String name = etName.getText().toString();
                 String note = etNote.getText().toString();
                 String location = etLocation.getText().toString();
-                int startDay = startDateTime.getmDay();
-                int startMonth = startDateTime.getmMonth();
-                int startYear = startDateTime.getmYear();
-                int startHour = startDateTime.getmHour();
-                int startMinute = startDateTime.getmMinute();
-                int endDay = endDateTime.getmDay();
-                int endMonth = endDateTime.getmMonth();
-                int endYear = endDateTime.getmYear();
-                int endHour = endDateTime.getmHour();
-                int endMinute = endDateTime.getmMinute();
-                boolean allDay = swAllday.isChecked();
 
                 if (name.length() != 0 && note.length() != 0 && location.length() != 0) {
                     temp.setName(name);
                     temp.setNote(note);
                     temp.setLocation(location);
-                    temp.setStartDay(startDay);
-                    temp.setStartMonth(startMonth);
-                    temp.setStartYear(startYear);
-                    temp.setStartHour(startHour);
-                    temp.setStartMinute(startMinute);
-                    temp.setEndDay(endDay);
-                    temp.setEndMonth(endMonth);
-                    temp.setEndYear(endYear);
-                    temp.setEndHour(endHour);
-                    temp.setEndMinute(endMinute);
-                    temp.setAllDay(allDay);
+                    temp.setStartDay(startDateTime.getmDay());
+                    temp.setStartMonth(startDateTime.getmMonth());
+                    temp.setStartYear(startDateTime.getmYear());
+                    temp.setStartHour(startDateTime.getmHour());
+                    temp.setStartMinute(startDateTime.getmMinute());
+                    temp.setEndDay(endDateTime.getmDay());
+                    temp.setEndMonth(endDateTime.getmMonth());
+                    temp.setEndYear(endDateTime.getmYear());
+                    temp.setEndHour(endDateTime.getmHour());
+                    temp.setEndMinute(endDateTime.getmMinute());
+                    temp.setAllDay(swAllday.isChecked());
+                    temp.setLatitude(place.getLatLng().latitude);
+                    temp.setLongtitude(place.getLatLng().longitude);
                     if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW) {
                         presenter.createAgenda(temp);
-                    }
-                    else {
+                    } else {
 
                         presenter.editAgenda(temp);
                     }
@@ -250,17 +239,16 @@ public class View extends AppCompatActivity implements IView {
             public void onClick(android.view.View view) {
                 if (etLocation.getText().length() != 0) {
                     Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
-                    intent.putExtra("latitude", place.getLatLng().latitude);
-                    intent.putExtra("longitude", place.getLatLng().longitude);
-                    intent.putExtra("title", etName.getText().toString());
-                    intent.putExtra("note", etNote.getText().toString());
-                    intent.putExtra("start date", tvStartDate.getText().toString());
-                    intent.putExtra("end date", tvEndDate.getText().toString());
-                    intent.putExtra("start time", tvStartTime.getText().toString());
-                    intent.putExtra("end time", tvEndTime.getText().toString());
-                    intent.putExtra("address", etLocation.getText().toString());
-                    intent.putExtra("color", color);
-                    startActivity(intent);
+                    if (FLAG == bss.intern.planb.View.Home.View.FLAG_EDIT) {
+                        intent.putExtra("latitude", temp.getLatitude());
+                        intent.putExtra("longitude", temp.getLongitude());
+                        startActivity(intent);
+                    } else {
+                        intent.putExtra("latitude", place.getLatLng().latitude);
+                        intent.putExtra("longitude", place.getLatLng().longitude);
+                        intent.putExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_TEMP_LOCATION);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -268,8 +256,10 @@ public class View extends AppCompatActivity implements IView {
 
     @Override
     public void successful() {
-        if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW) Toast.makeText(this, "Success create new event", Toast.LENGTH_SHORT).show();
-        if (FLAG == bss.intern.planb.View.Home.View.FLAG_EDIT) Toast.makeText(this, "Success update event", Toast.LENGTH_SHORT).show();
+        if (FLAG == bss.intern.planb.View.Home.View.FLAG_CREATE_NEW)
+            Toast.makeText(this, "Success create new event", Toast.LENGTH_SHORT).show();
+        if (FLAG == bss.intern.planb.View.Home.View.FLAG_EDIT)
+            Toast.makeText(this, "Success update event", Toast.LENGTH_SHORT).show();
     }
 
     @Override

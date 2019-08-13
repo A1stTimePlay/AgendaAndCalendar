@@ -47,6 +47,7 @@ public class View extends AppCompatActivity implements IView {
 
     public static int FLAG_CREATE_NEW = 0;
     public static int FLAG_EDIT = 1;
+    public static int FLAG_TEMP_LOCATION = 2;
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
@@ -70,9 +71,6 @@ public class View extends AppCompatActivity implements IView {
         configureNavigationDrawer();
         configureToolbar();
         configureWeekView();
-
-        TextView draggableView = (TextView) findViewById(R.id.draggable_view);
-        draggableView.setOnLongClickListener(new DragTapListener());
 
         presenter.loadAll();
     }
@@ -102,6 +100,16 @@ public class View extends AppCompatActivity implements IView {
         fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
         fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
         shadowView = findViewById(R.id.shadowView);
+
+
+        TextView draggableView = (TextView) findViewById(R.id.draggable_view);
+        draggableView.setOnLongClickListener(new DragTapListener());
+        draggableView.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                Toast.makeText(View.this, "Drag and drop to quick create new event", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         fabEvent.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
         fabEvent.setOnClickListener(new android.view.View.OnClickListener() {
@@ -233,6 +241,10 @@ public class View extends AppCompatActivity implements IView {
                 drawerLayout.closeDrawers();
                 if (menuItem.getItemId() == R.id.nav_new_event)
                     OpenCreateEventActivityDefault(ContextCompat.getColor(View.this, R.color.event_color_01));
+                if (menuItem.getItemId() == R.id.nav_map){
+                    Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         });
@@ -297,7 +309,7 @@ public class View extends AppCompatActivity implements IView {
             public void onDrop(android.view.View view, Calendar date) {
                 Calendar endTime = (Calendar) date.clone();
                 endTime.add(Calendar.HOUR,1);
-                AgendaEvent temp = new AgendaEvent(date, endTime, ContextCompat.getColor(View.this, R.color.event_color_01));
+                AgendaEvent temp = new AgendaEvent(date, endTime, ContextCompat.getColor(View.this, R.color.event_color_03));
                 temp.setName("Quick create event");
                 temp.setNote("You have some work to do now");
                 presenter.quickCreate(temp);

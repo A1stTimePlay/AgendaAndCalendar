@@ -19,42 +19,45 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import bss.intern.planb.Database.AgendaDatabase;
+import bss.intern.planb.Database.AgendaEvent;
+import bss.intern.planb.Presenter.ShowOnMap.Presenter;
 import bss.intern.planb.R;
 
-public class View extends FragmentActivity implements OnMapReadyCallback {
+public class View extends FragmentActivity implements OnMapReadyCallback, IView {
 
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
-    private String name;
-    private String note;
-    private String startDate;
-    private String startTime;
-    private String endDate;
-    private String endTime;
-    private String address;
-    private int color;
+    private int flag;
+    Presenter presenter;
+
+    private List<AgendaEvent> agendaEventList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Intent intent = getIntent();
+        latitude = intent.getDoubleExtra("latitude", 0);
+        longitude = intent.getDoubleExtra("longitude", 0);
+        flag = intent.getIntExtra("FLAG", -1);
+
+        AgendaDatabase db = AgendaDatabase.getINSTANCE(this);
+        presenter = new Presenter(this, db.agendaEventDao());
+        presenter.loadAll();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Intent intent = getIntent();
-        latitude = intent.getDoubleExtra("latitude", 0);
-        longitude = intent.getDoubleExtra("longitude", 0);
-        name = intent.getStringExtra("title");
-        note = intent.getStringExtra("note");
-        startDate = intent.getStringExtra("start date");
-        startTime = intent.getStringExtra("start time");
-        endDate = intent.getStringExtra("end date");
-        endTime = intent.getStringExtra("end time");
-        address = intent.getStringExtra("address");
-        color = intent.getIntExtra("color", -1);
+
+
+
     }
 
 
@@ -71,13 +74,23 @@ public class View extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng location = new LatLng(latitude, longitude);
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(location).title(name)
-                .snippet(note + "\n" + startDate + " - " + startTime + "\n" + endDate + " - " + endTime + "\n" + address)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bss));
-        mMap.addMarker(markerOptions);
+        for (AgendaEvent agendaEvent:agendaEventList) {
+            LatLng location = new LatLng(agendaEvent.getLatitude(), agendaEvent.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location).title(agendaEvent.getName())
+                    .snippet(agendaEvent.getNote() + "\n" + agendaEvent.startDateToString() + "\n" + agendaEvent.endDateToString() + "\n" + agendaEvent.getLocation())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bss));
+            mMap.addMarker(markerOptions);
+        }
+
+        if (flag == bss.intern.planb.View.Home.View.FLAG_TEMP_LOCATION){
+            LatLng location = new LatLng(latitude, longitude);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bss));
+            mMap.addMarker(markerOptions);
+        }
+
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public android.view.View getInfoWindow(Marker marker) {
@@ -90,7 +103,7 @@ public class View extends FragmentActivity implements OnMapReadyCallback {
                 info.setOrientation(LinearLayout.VERTICAL);
 
                 TextView title = new TextView(View.this);
-                title.setTextColor(color);
+                title.setTextColor(Color.BLACK);
                 title.setGravity(Gravity.CENTER);
                 title.setTypeface(null, Typeface.BOLD);
                 title.setText(marker.getTitle());
@@ -105,6 +118,13 @@ public class View extends FragmentActivity implements OnMapReadyCallback {
                 return info;
             }
         });
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+
+        LatLng currentLocation = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+    }
+
+    @Override
+    public void loadPlaceList(List<AgendaEvent> agendaEventList) {
+        this.agendaEventList = agendaEventList;
     }
 }
