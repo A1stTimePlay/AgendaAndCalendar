@@ -1,4 +1,4 @@
-package bss.intern.planb.View.AgendaDetail;
+package bss.intern.planb.View.EventDetail;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,6 @@ import bss.intern.planb.Database.AgendaDatabase;
 import bss.intern.planb.Database.AgendaEvent;
 import bss.intern.planb.Presenter.EventDetail.Presenter;
 import bss.intern.planb.R;
-import bss.intern.planb.Util.DateTime;
 import bss.intern.planb.WeekView.WeekViewEvent;
 
 public class View extends AppCompatActivity implements IView {
@@ -74,7 +73,7 @@ public class View extends AppCompatActivity implements IView {
         btnEdit.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View view) {
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAndEditEvent.View.class);
                 intent.putExtra("AgendaEvent", DisplayedAgendaEvent);
                 intent.putExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_EDIT);
                 startActivityForResult(intent, 1);

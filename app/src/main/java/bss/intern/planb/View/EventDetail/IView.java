@@ -1,4 +1,4 @@
-package bss.intern.planb.View.AgendaDetail;
+package bss.intern.planb.View.EventDetail;
 
 import bss.intern.planb.Database.AgendaEvent;
 

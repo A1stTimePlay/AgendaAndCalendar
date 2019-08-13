@@ -1,4 +1,4 @@
-package bss.intern.planb.View.AddAgenda;
+package bss.intern.planb.View.AddAndEditEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Button;

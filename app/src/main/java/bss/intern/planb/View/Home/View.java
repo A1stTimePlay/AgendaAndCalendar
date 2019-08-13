@@ -100,7 +100,6 @@ public class View extends AppCompatActivity implements IView {
         fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
         shadowView = findViewById(R.id.shadowView);
 
-
         TextView draggableView = (TextView) findViewById(R.id.draggable_view);
         draggableView.setOnLongClickListener(new DragTapListener());
         draggableView.setOnClickListener(new android.view.View.OnClickListener() {
@@ -214,10 +213,10 @@ public class View extends AppCompatActivity implements IView {
         if (isOpen == true)
             fabMenuClose();
         Calendar startDate = Calendar.getInstance();
-        Calendar endDate= (Calendar) startDate.clone();
+        Calendar endDate = (Calendar) startDate.clone();
         endDate.add(Calendar.HOUR, 1);
         AgendaEvent temp = new AgendaEvent(startDate, endDate, color);
-        Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+        Intent intent = new Intent(View.this, bss.intern.planb.View.AddAndEditEvent.View.class);
         intent.putExtra("AgendaEvent", temp);
         intent.putExtra("FLAG", FLAG_CREATE_NEW);
         startActivityForResult(intent, 1);
@@ -240,7 +239,7 @@ public class View extends AppCompatActivity implements IView {
                 drawerLayout.closeDrawers();
                 if (menuItem.getItemId() == R.id.nav_new_event)
                     OpenCreateEventActivityDefault(ContextCompat.getColor(View.this, R.color.event_color_01));
-                if (menuItem.getItemId() == R.id.nav_map){
+                if (menuItem.getItemId() == R.id.nav_map) {
                     Intent intent = new Intent(View.this, bss.intern.planb.View.ShowOnMap.View.class);
                     intent.putExtra("FLAG", View.FLAG_EDIT);
                     startActivity(intent);
@@ -287,7 +286,7 @@ public class View extends AppCompatActivity implements IView {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
                 AgendaEvent temp = new AgendaEvent(startTime, endTime, ContextCompat.getColor(View.this, R.color.event_color_01));
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAgenda.View.class);
+                Intent intent = new Intent(View.this, bss.intern.planb.View.AddAndEditEvent.View.class);
                 intent.putExtra("AgendaEvent", temp);
                 intent.putExtra("FLAG", View.FLAG_CREATE_NEW);
                 startActivityForResult(intent, 1);
@@ -298,7 +297,7 @@ public class View extends AppCompatActivity implements IView {
         weekView.setOnEventClickListener(new WeekView.EventClickListener() {
             @Override
             public void onEventClick(WeekViewEvent event, RectF eventRect) {
-                Intent intent = new Intent(View.this, bss.intern.planb.View.AgendaDetail.View.class);
+                Intent intent = new Intent(View.this, bss.intern.planb.View.EventDetail.View.class);
                 intent.putExtra("WeekViewEvent", event);
                 startActivity(intent);
             }
@@ -308,7 +307,7 @@ public class View extends AppCompatActivity implements IView {
             @Override
             public void onDrop(android.view.View view, Calendar date) {
                 Calendar endTime = (Calendar) date.clone();
-                endTime.add(Calendar.HOUR,1);
+                endTime.add(Calendar.HOUR, 1);
                 AgendaEvent temp = new AgendaEvent(date, endTime, ContextCompat.getColor(View.this, R.color.event_color_03));
                 temp.setName("Quick create event");
                 temp.setNote("You have some work to do now");

@@ -57,9 +57,7 @@ public class View extends FragmentActivity implements OnMapReadyCallback, IView 
         mapFragment.getMapAsync(this);
 
 
-
     }
-
 
     /**
      * Manipulates the map once available.
@@ -74,7 +72,7 @@ public class View extends FragmentActivity implements OnMapReadyCallback, IView 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for (AgendaEvent agendaEvent:agendaEventList) {
+        for (AgendaEvent agendaEvent : agendaEventList) {
             LatLng location = new LatLng(agendaEvent.getLatitude(), agendaEvent.getLongitude());
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(location).title(agendaEvent.getName())
@@ -83,7 +81,7 @@ public class View extends FragmentActivity implements OnMapReadyCallback, IView 
             mMap.addMarker(markerOptions);
         }
 
-        if (flag != bss.intern.planb.View.Home.View.FLAG_EDIT){
+        if (flag != bss.intern.planb.View.Home.View.FLAG_EDIT) {
             LatLng location = new LatLng(latitude, longitude);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(location)

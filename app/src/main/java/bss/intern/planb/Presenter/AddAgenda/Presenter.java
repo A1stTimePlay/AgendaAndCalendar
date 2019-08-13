@@ -2,7 +2,7 @@ package bss.intern.planb.Presenter.AddAgenda;
 
 import bss.intern.planb.Database.AgendaEvent;
 import bss.intern.planb.Database.AgendaEventDao;
-import bss.intern.planb.View.AddAgenda.View;
+import bss.intern.planb.View.AddAndEditEvent.View;
 
 public class Presenter implements IPresenter{
 
