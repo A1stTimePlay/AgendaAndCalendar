@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Home.View"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    tools:context=".View.Home.View">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -31,28 +31,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:columnGap="8dp"
+                    app:dayBackgroundColor="#05000000"
+                    app:dropListenerEnabled="true"
+                    app:eventTextColor="@color/white"
                     app:headerColumnPadding="8dp"
-                    app:headerRowPadding="12dp"
+                    app:headerRowPadding="18dp"
                     app:hourHeight="60dp"
                     app:noOfVisibleDays="7"
-                    app:showNowLine="true"
                     app:nowLineColor="@color/gray"
-                    app:dayBackgroundColor="#05000000"
-                    app:todayBackgroundColor="#1848adff"
                     app:nowLineThickness="4dp"
+                    app:showNowLine="true"
                     app:textSize="12dp"
-                    app:eventTextColor="@color/white"
-                    app:dropListenerEnabled="true"/>
+                    app:todayBackgroundColor="#1848adff" />
+
                 <TextView
                     android:id="@+id/draggable_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
+                    android:layout_width="50dp"
+                    android:layout_height="36dp"
                     android:background="@color/colorAccent"
-                    android:padding="2dp"
+                    android:text="sticky"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="5dp"
+                    android:textColor="@android:color/white"
                     android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="sticky" />
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -61,8 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/navigation_menu"
-            app:headerLayout="@layout/nav_header" />
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/navigation_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
@@ -74,6 +76,28 @@
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="84dp"
+        android:src="@drawable/ic_done"
+        android:backgroundTint="@color/green_material"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDecline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_close"
+        android:backgroundTint="@color/red_material"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMeeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,10 +106,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="220dp"
         android:backgroundTint="@color/event_color_04"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_question_answer"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabGoal"
@@ -96,10 +118,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="152dp"
         android:backgroundTint="@color/event_color_03"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_flag"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTodo"
@@ -110,10 +130,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="84dp"
         android:backgroundTint="@color/event_color_02"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_assignment"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -124,8 +142,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/plus"
         android:visibility="visible" />
 
@@ -135,43 +151,46 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="34dp"
         android:layout_marginEnd="88dp"
-        android:textSize="18sp"
+        android:layout_marginBottom="34dp"
         android:text="Event"
-        android:visibility="invisible"/>
+        android:textSize="18sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tvFabTodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="104dp"
         android:layout_marginEnd="88dp"
-        android:textSize="18sp"
+        android:layout_marginBottom="104dp"
         android:text="Todo"
-        android:visibility="invisible"/>
+        android:textSize="18sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tvFabGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="172dp"
         android:layout_marginEnd="88dp"
-        android:textSize="18sp"
+        android:layout_marginBottom="172dp"
         android:text="Goal"
-        android:visibility="invisible"/>
+        android:textSize="18sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tvFabMeeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="240dp"
         android:layout_marginEnd="88dp"
-        android:textSize="18sp"
+        android:layout_marginBottom="240dp"
         android:text="Meeting"
-        android:visibility="invisible"/>
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

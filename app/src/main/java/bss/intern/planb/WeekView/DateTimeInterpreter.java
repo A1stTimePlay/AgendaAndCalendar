@@ -8,5 +8,7 @@ import java.util.Calendar;
 public interface DateTimeInterpreter {
     public String interpretDate(Calendar date);
 
+    public String interpretDay(Calendar date);
+
     public String interpretTime(int hour, int minutes);
 }

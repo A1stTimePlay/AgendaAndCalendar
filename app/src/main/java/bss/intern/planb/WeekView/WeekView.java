@@ -382,14 +382,14 @@ public class WeekView extends View {
 //                                right > mHeaderColumnWidth &&
 //                                bottom > 0
 //                                ) {
-                            RectF dayRectF = new RectF(left, top, right, bottom - mCurrentOrigin.y);
-                            newEvent.setColor(mNewEventColor);
-                            mNewEventRect = new EventRect(newEvent, newEvent, dayRectF);
-                            tempEvents.add(newEvent);
-                            WeekView.this.clearEvents();
-                            cacheAndSortEvents(tempEvents);
-                            computePositionOfEvents(mEventRects);
-                            invalidate();
+                        RectF dayRectF = new RectF(left, top, right, bottom - mCurrentOrigin.y);
+                        newEvent.setColor(mNewEventColor);
+                        mNewEventRect = new EventRect(newEvent, newEvent, dayRectF);
+                        tempEvents.add(newEvent);
+                        WeekView.this.clearEvents();
+                        cacheAndSortEvents(tempEvents);
+                        computePositionOfEvents(mEventRects);
+                        invalidate();
 //                        }
 
                     }
@@ -740,7 +740,7 @@ public class WeekView extends View {
         canvas.save();
         canvas.clipRect(0, mHeaderHeight + mHeaderRowPadding * 2, mHeaderColumnWidth, getHeight());
         canvas.restore();
-        
+
         for (int i = 0; i < getNumberOfPeriods(); i++) {
             // If we are showing half hours (eg. 5:30am), space the times out by half the hour height
             // and need to provide 30 minutes on each odd period, otherwise, minutes is always 0.
@@ -960,7 +960,7 @@ public class WeekView extends View {
         canvas.clipRect(0, 0, mTimeTextWidth + mHeaderColumnPadding * 2, mHeaderHeight + mHeaderRowPadding * 2);
         canvas.drawRect(0, 0, mTimeTextWidth + mHeaderColumnPadding * 2, mHeaderHeight + mHeaderRowPadding * 2, mHeaderBackgroundPaint);
         canvas.restore();
-        
+
         // Clip to paint header row only.
         canvas.save();
         canvas.clipRect(mHeaderColumnWidth, 0, getWidth(), mHeaderHeight + mHeaderRowPadding * 2);
@@ -983,9 +983,18 @@ public class WeekView extends View {
 
             // Draw the day labels.
             String dayLabel = getDateTimeInterpreter().interpretDate(day);
+            // Edit: Make label consist of 2 lines
+            String dayOfMonthLabel = getDateTimeInterpreter().interpretDay(day);
+
             if (dayLabel == null)
                 throw new IllegalStateException("A DateTimeInterpreter must not return null date");
-            canvas.drawText(dayLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding, isToday ? mTodayHeaderTextPaint : mHeaderTextPaint);
+            // Edit:
+            canvas.drawText(dayLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding / 2, isToday ? mTodayHeaderTextPaint : mHeaderTextPaint);
+            canvas.drawText(dayOfMonthLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight * 2 + mHeaderRowPadding, isToday ? mTodayHeaderTextPaint : mHeaderTextPaint);
+
+            // Original:
+//            canvas.drawText(dayLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding / 2, isToday ? mTodayHeaderTextPaint : mHeaderTextPaint);
+
             drawAllDayEvents(day, startPixel, canvas);
             startPixel += mWidthPerDay + mColumnGap;
         }
@@ -1101,7 +1110,7 @@ public class WeekView extends View {
                             top < getHeight() &&
                             right > mHeaderColumnWidth &&
                             bottom > mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 + mHeaderMarginBottom
-                            ) {
+                    ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
                         mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
                         mEventBackgroundPaint.setShader(mEventRects.get(i).event.getShader());
@@ -1154,7 +1163,7 @@ public class WeekView extends View {
                             top < getHeight() &&
                             right > mHeaderColumnWidth &&
                             bottom > 0
-                            ) {
+                    ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
                         mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
                         mEventBackgroundPaint.setShader(mEventRects.get(i).event.getShader());
@@ -1642,6 +1651,11 @@ public class WeekView extends View {
                         e.printStackTrace();
                         return "";
                     }
+                }
+
+                @Override
+                public String interpretDay(Calendar date) {
+                    return null;
                 }
 
                 @Override
@@ -2801,6 +2815,7 @@ public class WeekView extends View {
     public interface ZoomEndListener {
         /**
          * Triggered when the user finishes a zoom action.
+         *
          * @param hourHeight The final height of hours when the user finishes zoom.
          */
         void onZoomEnd(int hourHeight);

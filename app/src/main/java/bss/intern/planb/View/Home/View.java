@@ -50,13 +50,15 @@ public class View extends AppCompatActivity implements IView {
 
     private DrawerLayout drawerLayout;
     private WeekView weekView;
-    private FloatingActionButton fabEvent, fabTodo, fabGoal, fabMeeting;
+    private FloatingActionButton fabEvent, fabTodo, fabGoal, fabMeeting, fabAccept, fabDecline;
     private TextView tvFabEvent, tvFabTodo, tvFabGoal, tvFabMeeting;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
     private List<AgendaEvent> mEventModels = new ArrayList<>();
     private Presenter presenter;
     private android.view.View shadowView;
     boolean isOpen;
+    private WeekViewEvent currentlySelected;
+    private WeekViewEvent currentlyMoving = new WeekViewEvent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,8 @@ public class View extends AppCompatActivity implements IView {
         fabTodo = findViewById(R.id.fabTodo);
         fabGoal = findViewById(R.id.fabGoal);
         fabMeeting = findViewById(R.id.fabMeeting);
+        fabAccept = findViewById(R.id.fabAccept);
+        fabDecline = findViewById(R.id.fabDecline);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_clock);
@@ -142,6 +146,24 @@ public class View extends AppCompatActivity implements IView {
             }
         });
 
+        fabDecline.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                fabConfirmClose();
+
+            }
+        });
+
+        fabAccept.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                if (currentlySelected != null) {
+                    presenter.moveEvent(currentlyMoving, currentlySelected);
+                }
+                fabConfirmClose();
+                presenter.loadAll();
+            }
+        });
 
         shadowView.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -153,6 +175,24 @@ public class View extends AppCompatActivity implements IView {
                 }
             }
         });
+    }
+
+    private void fabConfirmOpen(){
+        fabAccept.startAnimation(fab_open);
+        fabDecline.startAnimation(fab_open);
+        fabAccept.setVisibility(android.view.View.VISIBLE);
+        fabDecline.setVisibility(android.view.View.VISIBLE);
+        fabEvent.startAnimation(fab_close);
+        fabEvent.setVisibility(android.view.View.GONE);
+    }
+
+    private void fabConfirmClose(){
+        fabDecline.startAnimation(fab_close);
+        fabAccept.startAnimation(fab_close);
+        fabEvent.startAnimation(fab_open);
+        fabDecline.setVisibility(android.view.View.GONE);
+        fabAccept.setVisibility(android.view.View.GONE);
+        fabEvent.setVisibility(android.view.View.VISIBLE);
     }
 
     private void fabMenuOpen() {
@@ -258,8 +298,13 @@ public class View extends AppCompatActivity implements IView {
             public String interpretDate(Calendar date) {
                 SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
                 String weekday = weekdayNameFormat.format(date.getTime());
+                return weekday.toUpperCase();
+            }
+
+            @Override
+            public String interpretDay(Calendar date) {
                 SimpleDateFormat format = new SimpleDateFormat(" d", Locale.getDefault());
-                return weekday.toUpperCase() + format.format(date.getTime());
+                return format.format(date.getTime());
             }
 
             @Override
@@ -285,12 +330,21 @@ public class View extends AppCompatActivity implements IView {
         weekView.setAddEventClickListener(new WeekView.AddEventClickListener() {
             @Override
             public void onAddEventClicked(Calendar startTime, Calendar endTime) {
+
                 AgendaEvent temp = new AgendaEvent(startTime, endTime, ContextCompat.getColor(View.this, R.color.event_color_01));
                 Intent intent = new Intent(View.this, bss.intern.planb.View.AddAndEditEvent.View.class);
                 intent.putExtra("AgendaEvent", temp);
                 intent.putExtra("FLAG", View.FLAG_CREATE_NEW);
                 startActivityForResult(intent, 1);
 
+            }
+        });
+
+        weekView.setEmptyViewClickListener(new WeekView.EmptyViewClickListener() {
+            @Override
+            public void onEmptyViewClicked(Calendar date) {
+                currentlySelected = new WeekViewEvent();
+                currentlySelected.setStartTime(date);
             }
         });
 
@@ -313,6 +367,14 @@ public class View extends AppCompatActivity implements IView {
                 temp.setNote("You have some work to do now");
                 presenter.quickCreate(temp);
                 presenter.loadAll();
+            }
+        });
+
+        weekView.setEventLongPressListener(new WeekView.EventLongPressListener() {
+            @Override
+            public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+                fabConfirmOpen();
+                currentlyMoving = event;
             }
         });
 
