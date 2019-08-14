@@ -1,1 +1,2 @@
-weekview.notifyDatasetChanged() will trigger onMonthChange()
+weekview.notifyDatasetChanged() will trigger onMonthChange() <br>
+all change to weekview library start with "// Edit"
