@@ -13,17 +13,16 @@ public abstract class AgendaDatabase extends RoomDatabase {
 
     public abstract AgendaEventDao agendaEventDao();
 
-    public static AgendaDatabase getINSTANCE(Context context){
-        if (INSTANCE == null){
+    public static AgendaDatabase getINSTANCE(Context context) {
+        if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AgendaDatabase.class, "agenda-database")
-                            .allowMainThreadQueries()
-                            .build();
+                    .allowMainThreadQueries()
+                    .build();
         }
         return INSTANCE;
     }
 
-    public static void destroyINSTANCE(){
+    public static void destroyINSTANCE() {
         INSTANCE = null;
     }
-
 }

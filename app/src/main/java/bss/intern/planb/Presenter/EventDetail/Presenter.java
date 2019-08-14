@@ -17,13 +17,13 @@ public class Presenter implements IPresenter {
 
     @Override
     public void getAgendaEventById(WeekViewEvent weekViewEvent) {
-        AgendaEvent temp = agendaEventDao.findById((int)weekViewEvent.getId());
+        AgendaEvent temp = agendaEventDao.findById((int) weekViewEvent.getId());
         view.displayAgendaEventDetail(temp);
     }
 
     @Override
     public void deleteAgendaEvent(WeekViewEvent weekViewEvent) {
-        AgendaEvent temp = agendaEventDao.findById((int)weekViewEvent.getId());
+        AgendaEvent temp = agendaEventDao.findById((int) weekViewEvent.getId());
         agendaEventDao.deleteAgenda(temp);
         view.successfulDetele();
     }

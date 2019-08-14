@@ -1,7 +1,5 @@
 package bss.intern.planb.Presenter.Home;
 
-import com.google.android.libraries.places.api.model.Period;
-
 import java.util.Calendar;
 import java.util.List;
 

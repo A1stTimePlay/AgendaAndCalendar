@@ -1,16 +1,13 @@
 package bss.intern.planb.Database;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 import bss.intern.planb.Util.DateTime;
-import bss.intern.planb.WeekView.WeekViewEvent;
 
 @Entity(tableName = "AgendaEvent")
 public class AgendaEvent implements Serializable {

@@ -177,7 +177,7 @@ public class View extends AppCompatActivity implements IView {
         });
     }
 
-    private void fabConfirmOpen(){
+    private void fabConfirmOpen() {
         fabAccept.startAnimation(fab_open);
         fabDecline.startAnimation(fab_open);
         fabAccept.setVisibility(android.view.View.VISIBLE);
@@ -186,7 +186,7 @@ public class View extends AppCompatActivity implements IView {
         fabEvent.setVisibility(android.view.View.GONE);
     }
 
-    private void fabConfirmClose(){
+    private void fabConfirmClose() {
         fabDecline.startAnimation(fab_close);
         fabAccept.startAnimation(fab_close);
         fabEvent.startAnimation(fab_open);

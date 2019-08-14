@@ -6,26 +6,15 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import bss.intern.planb.Database.AgendaEvent;
-
 public class DateTime implements Serializable {
-    int mDay;
-    int mMonth;
-    int mYear;
-    int mHour;
-    int mMinute;
-    Calendar calendar;
+    private int mDay;
+    private int mMonth;
+    private int mYear;
+    private int mHour;
+    private int mMinute;
+    private Calendar calendar;
 
     NumberFormat formatter = new DecimalFormat("00");
-
-    public DateTime(Calendar calendar) {
-        this.mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        this.mMonth = calendar.get(Calendar.MONTH);
-        this.mYear = calendar.get(Calendar.YEAR);
-        this.mHour = calendar.get(Calendar.HOUR_OF_DAY);
-        this.mMinute = calendar.get(Calendar.MINUTE);
-        this.calendar = calendar;
-    }
 
     public DateTime(int mDay, int mMonth, int mYear, int mHour, int mMinute) {
         this.mDay = mDay;
