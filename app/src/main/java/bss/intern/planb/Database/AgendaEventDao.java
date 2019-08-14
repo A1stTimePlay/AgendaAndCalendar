@@ -19,6 +19,9 @@ public interface AgendaEventDao {
     @Insert(onConflict = IGNORE)
     void insertAgenda(AgendaEvent agendaEvent);
 
+    @Query("Select * from AgendaEvent where id like :id")
+    AgendaEvent findById(int id);
+
     @Update
     void updateAgenda(AgendaEvent agendaEvent);
 

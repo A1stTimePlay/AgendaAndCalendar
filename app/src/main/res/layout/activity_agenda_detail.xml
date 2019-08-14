@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.EventDetail.View">
+
+    <ImageView
+        android:id="@+id/btnDetailEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnDetailRemove"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <ImageView
+        android:id="@+id/btnEditDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+    <ImageView
+        android:id="@+id/btnDetailCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+    <ImageView
+        android:id="@+id/btnEditDetail2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailEndDate"
+        app:srcCompat="@drawable/outline_comment_black" />
+
+    <ImageView
+        android:id="@+id/btnEditDetail4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailLocation"
+        app:srcCompat="@drawable/ic_people" />
+
+    <ImageView
+        android:id="@+id/btnEditDetail6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailNote"
+        app:srcCompat="@drawable/ic_location" />
+
+    <ImageView
+        android:id="@+id/btnEditDetail3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailName"
+        app:srcCompat="@drawable/ic_access_time_black" />
+
+    <ImageView
+        android:id="@+id/btnDetailRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete" />
+
+    <TextView
+        android:id="@+id/tvDetailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:text="Sample event name"
+        android:inputType="textMultiLine"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEditDetail" />
+
+    <TextView
+        android:id="@+id/tvDetailStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:text="Thu, Aug 8, 2019 - 10:00"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailName" />
+
+    <TextView
+        android:id="@+id/tvDetailEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:text="Thu, Aug 8, 2019 - 11:00"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailStartDate" />
+
+    <TextView
+        android:id="@+id/tvDetailNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="textMultiLine"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed feugiat magna. Vestibulum at nunc ante."
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailEndDate" />
+
+    <TextView
+        android:id="@+id/tvDetailLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:inputType="textMultiLine"
+        android:text="Sample address, location"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailNote" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="2 guests"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/btnEditDetail4"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailLocation" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:text="nguyenxuanan.nxa@gmail.com"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:text="sample.email@gmail.com"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <View
+        android:id="@+id/color"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDetailCancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

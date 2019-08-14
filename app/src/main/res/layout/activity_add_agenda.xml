@@ -1,118 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.AddAgenda.View">
+    tools:context=".View.AddAndEditEvent.View">
 
-    <TextView
-        android:id="@+id/tvStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:text="31/07/2019"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameField" />
-
-    <TextView
-        android:id="@+id/tvEndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:text="01/08/2019"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStartDate" />
-
-    <TextView
-        android:id="@+id/tvStartTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:text="2:30 PM"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvStartDate"
-        app:layout_constraintTop_toBottomOf="@+id/NameField" />
-
-    <TextView
-        android:id="@+id/tvEndTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:text="3:10 PM"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvEndDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/NameField"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            android:layout_marginTop="24dp"
+            android:background="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etName" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEndTime" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etNote" />
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLocation" />
+
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:text="Tue, Aug 6, 2019"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:text="Tue, Aug 6, 2019"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartDate" />
+
+        <TextView
+            android:id="@+id/tvStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="2:30 PM"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/tvEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="3:10 PM"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
+
+        <ImageView
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="68dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="save"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
             android:hint="Enter title"
-            android:singleLine="true"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:inputType="textMultiLine"
+            android:maxEms="12"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCancel" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/NoteField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameField">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:text="All-day"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1" />
 
-        <com.google.android.material.textfield.TextInputEditText
+        <Switch
+            android:id="@+id/swAllday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+        <EditText
             android:id="@+id/etNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Add note" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
+            android:hint="Add note"
+            android:inputType="textMultiLine"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line2" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/LocationField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoteField">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/etLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Add location" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@null"
+            android:hint="Add location"
+            android:inputType="textMultiLine"
+            android:focusable="false"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line3" />
 
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="24dp"
-        android:text="Confirm"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LocationField" />
+        <EditText
+            android:id="@+id/etInvite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@null"
+            android:hint="Invite people"
+            android:inputType="textMultiLine"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line4" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
-        android:text="Cancle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LocationField" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/icAllday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:srcCompat="@drawable/ic_access_time_black" />
+
+        <ImageView
+            android:id="@+id/icNote"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line2"
+            app:srcCompat="@drawable/outline_comment_black" />
+
+        <ImageView
+            android:id="@+id/icPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line4"
+            app:srcCompat="@drawable/ic_people" />
+
+        <ImageView
+            android:id="@+id/icLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line3"
+            app:srcCompat="@drawable/ic_location" />
+
+        <Button
+            android:id="@+id/btnLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@color/event_color_04"
+            android:drawableStart="@drawable/outline_direction"
+            android:paddingLeft="128dp"
+            android:paddingRight="128dp"
+            android:text="Show on map"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

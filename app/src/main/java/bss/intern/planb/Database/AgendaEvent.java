@@ -1,16 +1,15 @@
 package bss.intern.planb.Database;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 import bss.intern.planb.Util.DateTime;
 
-@Entity (tableName = "AgendaEvent")
+@Entity(tableName = "AgendaEvent")
 public class AgendaEvent implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -29,8 +28,12 @@ public class AgendaEvent implements Serializable {
     private int endYear;
     private int endHour;
     private int endMinute;
+    private int color;
+    private boolean allDay;
+    private double latitude;
+    private double longitude;
 
-    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute) {
+    public AgendaEvent(String Name, String Note, String Location, int startDay, int startMonth, int startYear, int startHour, int startMinute, int endDay, int endMonth, int endYear, int endHour, int endMinute, int color, boolean allDay, double latitude, double longitude) {
         this.Name = Name;
         this.Note = Note;
         this.Location = Location;
@@ -44,7 +47,47 @@ public class AgendaEvent implements Serializable {
         this.endYear = endYear;
         this.endHour = endHour;
         this.endMinute = endMinute;
+        this.color = color;
+        this.allDay = allDay;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
+    @Ignore
+    public AgendaEvent(Calendar startDate, Calendar endDate, int color) {
+        this.Name = "";
+        this.Note = "";
+        this.Location = "";
+        this.startDay = startDate.get(Calendar.DAY_OF_MONTH);
+        this.startMonth = startDate.get(Calendar.MONTH);
+        this.startYear = startDate.get(Calendar.YEAR);
+        this.startHour = startDate.get(Calendar.HOUR);
+        this.startMinute = startDate.get(Calendar.MINUTE);
+        this.endDay = endDate.get(Calendar.DAY_OF_MONTH);
+        this.endMonth = endDate.get(Calendar.MONTH);
+        this.endYear = endDate.get(Calendar.YEAR);
+        this.endHour = endDate.get(Calendar.HOUR);
+        this.endMinute = endDate.get(Calendar.MINUTE);
+        this.color = color;
+        this.allDay = false;
+        this.latitude = 0;
+        this.longitude = 0;
+
+
+    }
+
+    @Ignore
+    public String startDateToString() {
+        DateTime temp = new DateTime(startDay, startMonth, startYear, startHour, startMinute);
+        return temp.dateToString() + " - " + temp.timeToString();
+    }
+
+    @Ignore
+    public String endDateToString() {
+        DateTime temp = new DateTime(endDay, endMonth, endYear, endHour, endMinute);
+        return temp.dateToString() + " - " + temp.timeToString();
+    }
+
 
     public int getId() {
         return id;
@@ -156,5 +199,37 @@ public class AgendaEvent implements Serializable {
 
     public void setEndMinute(int endMinute) {
         this.endMinute = endMinute;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongtitude(double longtitude) {
+        this.longitude = longtitude;
     }
 }
