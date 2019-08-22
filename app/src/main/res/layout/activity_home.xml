@@ -31,7 +31,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:columnGap="8dp"
-                    app:dayBackgroundColor="#05000000"
                     app:dropListenerEnabled="true"
                     app:eventTextColor="@color/white"
                     app:headerColumnPadding="8dp"
