@@ -54,6 +54,10 @@ public class AgendaEvent implements Serializable {
     }
 
     @Ignore
+    public AgendaEvent(){
+    }
+
+    @Ignore
     public AgendaEvent(Calendar startDate, Calendar endDate, int color) {
         this.Name = "";
         this.Note = "";

@@ -22,7 +22,7 @@ public class DateTime implements Serializable {
         this.mYear = mYear;
         this.mHour = mHour;
         this.mMinute = mMinute;
-        calendar = calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, mDay);
         calendar.set(Calendar.MONTH, mMonth);
         calendar.set(Calendar.YEAR, mYear);

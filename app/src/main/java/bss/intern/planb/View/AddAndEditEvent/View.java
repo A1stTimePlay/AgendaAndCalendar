@@ -98,6 +98,7 @@ public class View extends AppCompatActivity implements IView {
         etName.setText(temp.getName());
         etNote.setText(temp.getNote());
         etLocation.setText(temp.getLocation());
+        swAllday.setChecked(temp.isAllDay());
 
         // lần đầu tiên DatePickerDialog hiện lên sẽ show ngày mặc định là ngày hiện tại
 

@@ -104,7 +104,7 @@ public class View extends AppCompatActivity implements IView {
         fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_rotate_anticlock);
         shadowView = findViewById(R.id.shadowView);
 
-        TextView draggableView = (TextView) findViewById(R.id.draggable_view);
+        TextView draggableView = findViewById(R.id.draggable_view);
         draggableView.setOnLongClickListener(new DragTapListener());
         draggableView.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -250,7 +250,7 @@ public class View extends AppCompatActivity implements IView {
     }
 
     private void OpenCreateEventActivityDefault(int color) {
-        if (isOpen == true)
+        if (isOpen)
             fabMenuClose();
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = (Calendar) startDate.clone();
