@@ -46,11 +46,11 @@
                 <TextView
                     android:id="@+id/draggable_view"
                     android:layout_width="50dp"
-                    android:layout_height="36dp"
+                    android:layout_height="38dp"
                     android:background="@color/colorAccent"
                     android:text="sticky"
                     android:paddingLeft="3dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="6dp"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
                     android:textStyle="bold" />
