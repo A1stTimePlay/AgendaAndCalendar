@@ -261,6 +261,7 @@ public class View extends AppCompatActivity implements IView {
                 temp.setLatitude(place.getLatLng().latitude);
                 temp.setLongtitude(place.getLatLng().longitude);
                 etLocation.setText(place.getAddress());
+                System.out.println(place.getAddress());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
             } else if (resultCode == RESULT_CANCELED) {

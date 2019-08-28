@@ -9,6 +9,7 @@ import android.view.ViewParent;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -34,6 +35,11 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasFlag;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -45,9 +51,15 @@ import static org.junit.Assert.assertEquals;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class TestCreateNewEvent {
+    AgendaEvent temp;
 
     @Rule
     public ActivityTestRule<bss.intern.planb.View.Home.View> mActivityTestRule = new ActivityTestRule<>(bss.intern.planb.View.Home.View.class);
+
+    @Before
+    public void init(){
+        Intents.init();
+    }
 
     @Test
     public void viewTest() throws InterruptedException {
@@ -130,6 +142,11 @@ public class TestCreateNewEvent {
                                         0),
                                 9)));
         appCompatButton.perform(scrollTo(), click());
+
+        intending(
+                allOf(toPackage("bss.intern.planb.View.AddAndEditEvent.View"),
+                hasExtra("FLAG", bss.intern.planb.View.Home.View.FLAG_CREATE_NEW)
+                ));
     }
 
     private static Matcher<View> childAtPosition(
